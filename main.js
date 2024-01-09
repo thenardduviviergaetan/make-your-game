@@ -1,9 +1,9 @@
-import {Ship,Projectile} from "./utils/utils.js";
+import {Ship,Projectile} from "./utils/ship.js";
 import { Wave } from "./utils/enemies.js";
 let rightPressed,leftPressed,bulletShot,border
 let score = 0
 const ship = new Ship
-let wave = new Wave(5,10,true)
+let wave = new Wave(5,20,true)
 let game = document.getElementById('game')
 game.appendChild(wave.HTML)
 await ship.initShip()
@@ -24,11 +24,9 @@ const moveShip =  ()=> {
     if (ship.x>=10 && leftPressed) ship.x-=10
     if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=10
      ship.element.style.left = `${ship.x}px`
-    //  requestAnimationFrame(moveShip)
 }
 
 let bullet = new Projectile(ship)
-//FIXME: this.x ne marche pas ????
 
 let projo = await bullet.projectileInit()
 
@@ -37,7 +35,6 @@ const shoot =  ()=> {
 let invaders = document.querySelectorAll('.invader')
     document.body.appendChild(projo)
     bulletShot = document.getElementById('projectile')
-    //FIXME: TOUT SYNCHRO CAR PB DE HITBOX
    
     if (invaders.length == 0){
         let W = document.createElement('h1')
@@ -52,8 +49,9 @@ let invaders = document.querySelectorAll('.invader')
         if (elem != null){
             border = elem.getBoundingClientRect()
         }
-
-        if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && elem != null){
+        console.log(border.top)
+        console.log(bullet.y)
+        if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
             console.log(bullet.x)
             console.log('shooté')
             elem.remove()
@@ -75,12 +73,7 @@ let invaders = document.querySelectorAll('.invader')
         //FIXME: PROBLEME DE HITBOX ICI CEILING
     }
     bulletShot.style.bottom = `${bullet.y}px`
-    // requestAnimationFrame(shoot)
 }
-
-// setInterval(() => {
-//     if (!bulletShot) shoot()
-// }, 200);
 
 
 

@@ -44,6 +44,7 @@ export class Wave {
         let index = 0;
         this.boss = boss;
         if (this.boss === true) {
+            
             index = 4;
             nbline += 4;
             let boss = new Ennemy((nbinvader/2-2)*size,0*size,4,"invader","boss");
