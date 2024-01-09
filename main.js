@@ -11,7 +11,10 @@ await ship.initShip()
 document.addEventListener('keydown',  (key)=> {
     if (key.key == 'd' )rightPressed = true
     if (key.key == 'q' )leftPressed = true
-    if (key.key == 'Escape')Pause = !Pause
+    if (key.key == 'Escape'){
+        Pause = !Pause
+        pauseMenu()
+    }
 })
 
 document.addEventListener('keyup', (key)=> {
@@ -35,25 +38,11 @@ const shoot =  ()=> {
 let invaders = document.querySelectorAll('.invader')
     document.body.appendChild(projo)
     bulletShot = document.getElementById('projectile')
-   
-    if (invaders.length == 0){
-        let W = document.createElement('h1')
-            W.style.width='500px'
-            W.style.fontSize = '50px'
-            W.style.color = 'white'
-            W.textContent= 'YOU WON !'
-            document.body.appendChild(W)
-            return
-    }
     invaders.forEach(elem=> {
         if (elem != null){
             border = elem.getBoundingClientRect()
         }
-        console.log(border.top)
-        console.log(bullet.y)
         if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
-            console.log(bullet.x)
-            console.log('shooté')
             elem.remove()
             bulletShot.remove()
             bullet.x=ship.x+21
@@ -70,7 +59,6 @@ let invaders = document.querySelectorAll('.invader')
         bullet.x=ship.x+21
         bullet.y = ship.y+25
         bulletShot.style.left = `${bullet.x}px`
-        //FIXME: PROBLEME DE HITBOX ICI CEILING
     }
     bulletShot.style.bottom = `${bullet.y}px`
 }
@@ -81,7 +69,7 @@ let invaders = document.querySelectorAll('.invader')
 
 setInterval(() => {
     let scoreCount = document.getElementById('score')
-    scoreCount.textContent = `score : ${score}`
+    scoreCount.textContent = `Score : ${score}`
     
     // if (score == 5) {
     //     alert('bien joué !')
@@ -89,9 +77,42 @@ setInterval(() => {
     // }
 }, 100);
 
+const pauseMenu = ()=> {
+    if (Pause) {
+        let menu = document.createElement('div')
+        menu.id = 'menu'
+        menu.style.left = `${(window.innerWidth/2)-250}px`
+        menu.style.top = `${(window.innerHeight/2)-150}px`
 
+        let title = document.createElement('h1')
+        title.id = 'title'
+        title.textContent = 'Menu'
+
+        let resume = document.createElement('button')
+        resume.id = 'resume'
+        resume.textContent = 'Resume'
+        resume.addEventListener('click', ()=> {
+            document.getElementById('menu').remove()
+            Pause = !Pause
+        })
+        let restart = document.createElement('button')
+        restart.id = 'restart'
+        restart.textContent = 'Restart'
+        restart.addEventListener('click',()=> {
+            location.reload()
+        })
+
+        menu.appendChild(title)
+        menu.appendChild(resume)
+        menu.appendChild(restart)
+        document.body.appendChild(menu) 
+    } else {
+        if (document.getElementById('menu') !== null)document.getElementById('menu').remove()
+    }
+}
 
 let Pause = false
+
 
 function Game(){
     if (!Pause) {

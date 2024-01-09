@@ -8,13 +8,11 @@ class Ennemy {
             this.HTML.classList.add(element)
         });
         this.HTML.style.position = "absolute";
-        // this.HTML.style.background="black";
         this.texture = document.createElement("img");
         this.texture.src = "./assets/alien.png";
         this.texture.width = size*levelsize;
         this.texture.height = size*levelsize;
         this.HTML.appendChild(this.texture);
-        // this.HTML.style.backgroundImage = "../../image/spaceinvader/invader-white.png";
         this.posx = x;
         this.posy = y;
         this.HTML.style.top =  this.posy+"px";
@@ -68,7 +66,7 @@ export class Wave {
 
     tick(){
         // console.log(this.length);
-        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500){
+        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500){//FIXME: bonne équation pour bounce sur le bord de l'écran
             return
         }
         // if (this.posx+ this.length >= 250){
