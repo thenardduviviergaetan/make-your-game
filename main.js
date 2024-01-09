@@ -11,6 +11,7 @@ await ship.initShip()
 document.addEventListener('keydown',  (key)=> {
     if (key.key == 'd' )rightPressed = true
     if (key.key == 'q' )leftPressed = true
+    if (key.key == 'Escape')Pause = !Pause
 })
 
 document.addEventListener('keyup', (key)=> {
@@ -23,10 +24,8 @@ const moveShip =  ()=> {
     if (ship.x>=10 && leftPressed) ship.x-=10
     if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=10
      ship.element.style.left = `${ship.x}px`
-     requestAnimationFrame(moveShip)
+    //  requestAnimationFrame(moveShip)
 }
-
-moveShip()
 
 let bullet = new Projectile(ship)
 //FIXME: this.x ne marche pas ????
@@ -73,15 +72,15 @@ let invaders = document.querySelectorAll('.invader')
         bullet.x=ship.x+21
         bullet.y = ship.y+25
         bulletShot.style.left = `${bullet.x}px`
-        //FIXME: PROBLEME DE HITBOX ICI
+        //FIXME: PROBLEME DE HITBOX ICI CEILING
     }
     bulletShot.style.bottom = `${bullet.y}px`
-    requestAnimationFrame(shoot)
+    // requestAnimationFrame(shoot)
 }
 
-setInterval(() => {
-    if (!bulletShot) shoot()
-}, 200);
+// setInterval(() => {
+//     if (!bulletShot) shoot()
+// }, 200);
 
 
 
@@ -99,13 +98,15 @@ setInterval(() => {
 
 
 
-
+let Pause = false
 
 function Game(){
-    // if (!Pause) {
+    if (!Pause) {
         // console.log(window.innerHeight,window.innerWidth)
         wave.tick()
-    // }
+        shoot()
+        moveShip()
+    }
     requestAnimationFrame(Game)
 }
 Game()
