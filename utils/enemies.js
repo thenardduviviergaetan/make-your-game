@@ -1,4 +1,3 @@
-
 const size = 32;
 /**
  * Class Ennemy is all the infos about each invader and boss
@@ -51,7 +50,7 @@ export class Wave {
         this.legion = new Array();
         this.HTML = document.createElement("div");
         this.HTML.classList.add("wave");
-        this.posx = 0;
+        this.posx = document.getElementById('score').getBoundingClientRect().right;
         this.posy = 0;
         this.HTML.style.top =  this.posy+"px";
         this.HTML.style.left = this.posx+"px";
@@ -88,27 +87,46 @@ export class Wave {
      * it goes down a certain number of pixels and continue its route until it reaches the dead line, then its Game Over
     */
 
-    //TODO: faire un game over
-    //TODO: faire un valeur de descente dynamique
-    //TODO: faire un ecran confiné pour laisser une place à notre scoreboard
-    tick(){
+   //TODO: faire un valeur de descente et de déplacement dynamique
+   //TODO: faire une bprder confinée pour laisser une place à notre scoreboard
+   tick(){
         if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500){
-            return
+            let over = document.createElement('img')
+            over.src = './assets/game-over.png'
+            over.id = 'over'
+            document.body.appendChild(over)
+            setInterval(() => {
+                over.style.transform = 'scale(0.8)'
+                over.style.transition = '500ms'
+                setTimeout(()=> {
+                    over.style.transform = 'scale(1)'
+                    over.style.backgroundColor = 'red'
+                    over.style.transitionProperty ='transform,background-color'
+                    over.style.transitionDuration = '500ms,'
+                },250)
+                setTimeout(()=> {
+                    over.style.transform = 'scale(0.8)'
+                    over.style.backgroundColor = ''
+                    over.style.transitionProperty ='transform,background-color'
+                    over.style.transitionDuration = '500ms,200ms'
+                },800)
+            }, 800);
+            return true
         }
         if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size){
             this.right = false
             this.posy += 10
             this.HTML.style.top =  this.posy+"px";
-        }else if (this.posx == 0){
+        }else if (this.posx <= document.getElementById('score').getBoundingClientRect().right){
             this.right = true
             this.posy += 10
             this.HTML.style.top =  this.posy+"px";
         }
         if (this.right){
-            this.posx += 2;
+            this.posx += 2; //LE MAX DE VITESSE C 20 SINON C INJOUABLE
             this.HTML.style.left = this.posx+"px";
         }else {
-            this.posx -= 2;
+            this.posx -= 2; 
             this.HTML.style.left = this.posx+"px";
         }
         this.legion.forEach((element) => {

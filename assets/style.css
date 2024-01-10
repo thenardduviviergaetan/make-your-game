@@ -10,31 +10,38 @@ body{
     display: flex;
     position: absolute;
     flex-direction: column;
-    text-align: center;
+    justify-content: center;
     align-items: center;
-    /* justify-content: center; */
+    text-align: center;
     backdrop-filter: blur(4px);
     background-color: rgba(234, 234, 234, 0.13);
     width: 500px;
     height: 300px;
+    z-index: 99;
+    border-radius: 12px;
 }
 
 
 #title{
     color: rgb(0, 0, 0);
+    position: absolute;
     width: 90%;
     background-color: rgba(255,255,255,0.7);
     border-radius: 12px;
+    top: 0;
 }
 
 #resume,#restart{
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.758);
     color: black;
     width: 90%;
     margin-top: 40px;
     height: 25px;
     border-radius: 12px;
     transition: 350ms;
+    font-weight:bolder;
+    font-size: 20px;
+    text-align: center;
 }
 
 
@@ -53,10 +60,26 @@ body{
 }
 
 #score,#timer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
-    text-align: center;
     background-color: rgba(255, 255, 255, 0.311);
-    width: 7%;
+    width: 13%;
+    height: 40px;
     text-decoration: solid;
     margin-left: 1%;
+    margin-top: 12%;
+    font-size: large;
+    font-weight: bold;
 }
+#over{
+    color: white;
+    position: absolute;
+    top: 25px;
+    left: 35.2%;
+    z-index: 100;
+    border-radius: 20px;
+    width: 30%;
+}
+

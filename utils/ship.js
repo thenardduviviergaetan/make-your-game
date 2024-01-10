@@ -1,25 +1,7 @@
-const throttle = (f, delay, { leading = false, trailing = false } = {}) => {
-    let flag = false
-    return (...args) => {
-        if (!flag) {
-            if (leading) f(...args)
-            flag = true
-            setTimeout(() => {
-                flag = false
-                if (trailing && !(leading)) f(...args)
-            }, delay)
-        }
-    }
-}
-
-const moveShip =  ()=> {
-    ship.element =  document.getElementById('ship')
-    if (ship.x>=10 && leftPressed) ship.x-=10
-    if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=10
-     ship.element.style.left = `${ship.x}px`
-     requestAnimationFrame(moveShip)
-}
-
+/**
+ * Initialize the entire characteristics of the ship itself
+ * @returns {HTMLImageElement} - The ship in a HTML Image Element format
+ */
 class Ship {
     constructor(){
         this.x = window.innerWidth/2 -45/2,
@@ -40,8 +22,11 @@ class Ship {
     }
 }
 
-//argument constructeur owner (qui tire ?)
-
+/**
+ * Initialize the location from where the projectile will be shot
+ * @param {Class} owner - The shooter, where the projectile will be shot 
+ * @returns {HTMLDivElement} - The projectile foramtted as a div
+ */
 class Projectile {
     constructor(owner){
         this.x = owner.x+21
@@ -62,4 +47,4 @@ class Projectile {
     }
 }
 
-export{throttle,Ship,Projectile}
+export{Ship,Projectile}

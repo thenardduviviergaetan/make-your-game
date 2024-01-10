@@ -1,12 +1,13 @@
 import {Ship,Projectile} from "./utils/ship.js";
 import { Wave } from "./utils/enemies.js";
 
+//TODO: FAIRE DES BONUS DE RAPID FIRE (on rajoute des shoot()) et rapid movement on rajoute des moveship()
 //** Initialization of all the global variables */
 let rightPressed,leftPressed,bulletShot,border
 let score = 0
 let Pause = false
 const ship = new Ship
-let wave = new Wave(5,10,true)
+let wave = new Wave(5,10,false)
 
 
 let game = document.getElementById('game')
@@ -51,7 +52,7 @@ let projo = await bullet.projectileInit()
  * Handling of the shooting functionnality and of the bullet reaching the target and 'exploding' (removing) it 
  */
 const shoot =  ()=> {
-    
+//TODO: mettre des sons à l'explosion, tir et boss qui meurt
 let invaders = document.querySelectorAll('.invader')
     document.body.appendChild(projo)
     bulletShot = document.getElementById('projectile')
@@ -61,13 +62,21 @@ let invaders = document.querySelectorAll('.invader')
         }
         //if the bullet reaches one of the invaders, it removes the bullet and the invader
         if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
-            elem.remove()
-            bulletShot.remove()
+            if (elem.classList.contains('boss')){
+                if (elem.querySelector('img').src == 'http://127.0.0.1:3000/assets/alien.png') score+=5  
+            }else {
+                console.log(elem.querySelector('img').src)
+                if (elem.querySelector('img').src == 'http://127.0.0.1:3000/assets/alien.png')score++
+                
+                elem.querySelector('img').src = './assets/Explosion.png'
+                setTimeout(() => {
+                    elem.remove()
+                }, 250);
+                bulletShot.remove()
+            } 
             bullet.x=ship.x+21
             bulletShot.style.left = `${bullet.x}px`
             bullet.y = ship.y+25
-            if (elem.classList.contains('boss')) score+=5
-            else score++
         }
     })
     if (bulletShot.style.bottom.slice(0,-2) <= window.innerHeight){
@@ -90,11 +99,11 @@ setInterval(() => {
     let scoreCount = document.getElementById('score')
     scoreCount.textContent = `Score : ${score}`
     
-    if (score == (wave.nbinvader*wave.nbline)+5) {
-        prompt('Bien joué ! Entrez votre pseudo')
-        score = 0
-        location.reload()
-    }
+    // if (score == (wave.nbinvader*wave.nbline)+5) {
+    //     prompt('Bien joué ! Entrez votre pseudo')
+    //     score = 0
+    //     location.reload()
+    // }
 }, 100);
 
 
@@ -131,7 +140,6 @@ const pauseMenu = ()=> {
         menu.id = 'menu'
         menu.style.left = `${(window.innerWidth/2)-250}px`
         menu.style.top = `${(window.innerHeight/2)-150}px`
-
         let title = document.createElement('h1')
         title.id = 'title'
         title.textContent = 'Menu'
@@ -157,6 +165,7 @@ const pauseMenu = ()=> {
         menu.appendChild(resume)
         menu.appendChild(restart)
         document.body.appendChild(menu) 
+        return menu
         // if we were already on pause, it delete the menu to resume the current game 
     } else {
         if (document.getElementById('menu') !== null)document.getElementById('menu').remove()
@@ -168,9 +177,13 @@ const pauseMenu = ()=> {
  * */
 function Game(){
     if (!Pause) {
-        // console.log(window.innerHeight,window.innerWidth)
-        wave.tick()
+        // if this is a game over
+        if (wave.tick()){
+            Pause = !Pause
+            pauseMenu().removeChild(document.getElementById('resume'))
+        }
         shoot()
+
         moveShip()
     }
     requestAnimationFrame(Game)
