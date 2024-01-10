@@ -10,7 +10,7 @@ let Pause = false
 let waveNb = 1
 const ship = new Ship
 let wave = new Wave(5,14,true)
-const Port = "5500"
+const Port = "3000"
 
 
 let game = document.getElementById('game')
@@ -41,7 +41,7 @@ document.addEventListener('keyup', (key)=> {
  */
 const moveShip =  ()=> {
     ship.element =  document.getElementById('ship')
-    if (ship.x>=10 && leftPressed) ship.x-=10
+    if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=10
     if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=10
      ship.element.style.left = `${ship.x}px`
 }
@@ -197,7 +197,7 @@ function Game(){
             Pause = !Pause
             pauseMenu().removeChild(document.getElementById('resume'))
         }
-        for (let rep = 0; rep < 100; rep++) shoot()
+        for (let rep = 0; rep < 1; rep++) shoot()
         moveShip()
     }
     requestAnimationFrame(Game)
