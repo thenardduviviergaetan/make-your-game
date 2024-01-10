@@ -7,8 +7,10 @@ import { Wave } from "./utils/enemies.js";
 let rightPressed,leftPressed,bulletShot,border
 let score = 0
 let Pause = false
+let waveNb = 1
 const ship = new Ship
 let wave = new Wave(5,14,true)
+const Port = "5500"
 
 
 let game = document.getElementById('game')
@@ -64,15 +66,14 @@ let invaders = document.querySelectorAll('.invader')
         //if the bullet reaches one of the invaders, it removes the bullet and the invader
         if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
             if (elem.classList.contains('boss')){
-                if (elem.querySelector('img').src == 'http://127.0.0.1:3000/assets/alien.png') score+=5  
+                if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`) score+=5  
                 elem.querySelector('img').src = './assets/Explosion.png'
                 setTimeout(() => {
                     elem.remove()
                 }, 250);
                 bulletShot.remove()
             }else {
-                if (elem.querySelector('img').src == 'http://127.0.0.1:3000/assets/alien.png')score++
-                
+                if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`)score++
                 elem.querySelector('img').src = './assets/Explosion.png'
                 setTimeout(() => {
                     elem.remove()
@@ -103,6 +104,8 @@ let invaders = document.querySelectorAll('.invader')
 setInterval(() => {
     let scoreCount = document.getElementById('score')
     scoreCount.textContent = `Score : ${score}`
+    let waveCount = document.getElementById('wavenb')
+    waveCount.textContent = `Wave : ${waveNb}`
     
     // if (score == (wave.nbinvader*wave.nbline)+5) {
     //     prompt('Bien joué ! Entrez votre pseudo')
@@ -182,12 +185,19 @@ const pauseMenu = ()=> {
  * */
 function Game(){
     if (!Pause) {
+        let invaders = document.querySelectorAll('.invader')
+        if (invaders.length == 0){
+            waveNb++
+            wave = new Wave(5,20,true)
+            game.removeChild(game.firstChild)
+            game.appendChild(wave.HTML)
+        }
         // if this is a game over
         if (wave.tick()){
             Pause = !Pause
             pauseMenu().removeChild(document.getElementById('resume'))
         }
-        shoot()
+        for (let rep = 0; rep < 100; rep++) shoot()
         moveShip()
     }
     requestAnimationFrame(Game)
