@@ -8,7 +8,7 @@ let rightPressed,leftPressed,bulletShot,border
 let score = 0
 let Pause = false
 const ship = new Ship
-let wave = new Wave(5,10,true)
+let wave = new Wave(5,14,true)
 
 
 let game = document.getElementById('game')
@@ -188,7 +188,6 @@ function Game(){
             pauseMenu().removeChild(document.getElementById('resume'))
         }
         shoot()
-
         moveShip()
     }
     requestAnimationFrame(Game)
