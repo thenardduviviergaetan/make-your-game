@@ -2,6 +2,7 @@ import {Ship,Projectile} from "./utils/ship.js";
 import { Wave } from "./utils/enemies.js";
 
 //TODO: FAIRE DES BONUS DE RAPID FIRE (on rajoute des shoot()) et rapid movement on rajoute des moveship()
+//TODO: mettre 3 vies
 //** Initialization of all the global variables */
 let rightPressed,leftPressed,bulletShot,border
 let score = 0
