@@ -1,12 +1,7 @@
 let w = 0
 let bool = false
 const loadScreen = (Pause)=> {
-    setTimeout(() => {
-        let audio = new Audio('./assets/musique.mp3')
-    audio.loop = true
-    audio.volume =0.5
-    audio.play()
-    }, 4800);
+    
     let load = document.createElement('div')
     load.id = 'load'
     load.style.width = `${window.innerWidth}px`

@@ -11,6 +11,16 @@ let waveNb = 1
 const ship = new Ship
 let wave = new Wave(5,14,true)
 const Port = "3000"
+let audio = new Audio('./assets/music.mp3')
+let explodeSound = new Audio('./assets/explosion.mp3')
+
+setTimeout(() => {
+audio.loop = true
+audio.volume =0.5
+audio.play()
+}, 4800);
+
+explodeSound.volume = 0.2
 
 Pause = loadScreen(Pause)
 
@@ -63,8 +73,7 @@ let projo = await bullet.projectileInit()
 // sound.play()
 const shoot =  ()=> {
     //TODO: mettre des sons à l'explosion, tir et boss qui meurt
-    let explodeSound = new Audio('./assets/explosion.mp3')
-    explodeSound.volume = 0.2
+    //FIXME: explosion delay de 1s environ
     let invaders = document.querySelectorAll('.invader')
     document.body.appendChild(projo)
     bulletShot = document.getElementById('projectile')
@@ -74,18 +83,17 @@ const shoot =  ()=> {
         }
         //if the bullet reaches one of the invaders, it removes the bullet and the invader
         if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
+            // explodeSound.play()
             if (elem.classList.contains('boss')){
-                if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`) score+=5  
+                if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`) score+=5 ; explodeSound.play()
                 elem.querySelector('img').src = './assets/Explosion.png'
-                explodeSound.play()
                 setTimeout(() => {
                     elem.remove()
                 }, 250);
                 bulletShot.remove()
             }else {
-                if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`)score++
+                if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`)score++;explodeSound.play()
                 elem.querySelector('img').src = './assets/Explosion.png'
-                explodeSound.play()
                 setTimeout(() => {
                     elem.remove()
                 }, 250);
@@ -158,6 +166,7 @@ timer()
 const pauseMenu = ()=> {
     // it "asks" to the listener above if the escape key has been pressed, if it pressed then it enters in this condition block 
     if (Pause) {
+        audio.pause()
         let menu = document.createElement('div')
         menu.id = 'menu'
         menu.style.top = `${(window.innerHeight/2)-150}px`
@@ -172,6 +181,7 @@ const pauseMenu = ()=> {
         resume.addEventListener('click', ()=> {
             document.getElementById('menu').remove()
             Pause = !Pause
+            audio.play()
         })
         let restart = document.createElement('button')
         restart.id = 'restart'
@@ -187,6 +197,8 @@ const pauseMenu = ()=> {
             score = 0
             waveNb = 1
             Pause = !Pause
+            audio.load()
+            audio.play()
         })
 
         menu.appendChild(title)
@@ -196,6 +208,7 @@ const pauseMenu = ()=> {
         return menu
         // if we were already on pause, it delete the menu to resume the current game 
     } else {
+        audio.play()
         if (document.getElementById('menu') !== null)document.getElementById('menu').remove()
     }
 }
