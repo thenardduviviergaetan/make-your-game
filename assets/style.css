@@ -27,17 +27,8 @@ body{
     border-radius: 12px;
 }
 
-#resume{
+#resume,#restart{
     background-color: rgb(255, 255, 255);
-    color: black;
-    width: 90%;
-    margin-top: 40px;
-    height: 25px;
-    border-radius: 12px;
-    transition: 350ms;
-}
-#restart{
-    background-color: white;
     color: black;
     width: 90%;
     margin-top: 40px;
@@ -61,10 +52,11 @@ body{
     transition-duration: 350ms;
 }
 
-#score{
+#score,#timer{
     color: white;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.311);
-    width: 10%;
+    width: 7%;
     text-decoration: solid;
+    margin-left: 1%;
 }

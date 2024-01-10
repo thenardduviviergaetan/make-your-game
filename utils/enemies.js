@@ -1,6 +1,12 @@
 
 const size = 32;
-
+/**
+ * Class Ennemy is all the infos about each invader and boss
+ * @param {number} x - X coordinates of each invader
+ * @param {number} y - Y coordinates of each invader
+ * @param {number} levelsize - The size of the item (1 for the invader and 4 for the boss)
+ * @param {string} nameclass - All classes taht you want to add to your HTML element (invader or boss here)
+ */
 class Ennemy {
     constructor (x,y,levelsize,...nameclass) {
         this.HTML = document.createElement("div");
@@ -22,15 +28,25 @@ class Ennemy {
         this.size = size*levelsize;
     }
 
+    
+    // Handles the dynamics coordinates of each invaders
     tick(lx,ly){
         this.HTML.style.top =  ly + this.posy+"px";
         this.HTML.style.left = lx + this.posx+"px";
     }
 }
 
+/**
+ * Wave is the entire wave-to-destroy roaming on the screen
+ * @param {number} nbline - The number of lines that the legion has
+ * @param {number} nbinvader - The number of unique invader in each line
+ * @param {boolean} boss - Whether or not there is a boss in the current wave
+ * @returns {Class} - All information about the wave gathered in a class
+ */
 export class Wave {
     constructor (nbline,nbinvader,boss){
-        // this.length = nbinvader*size/2
+        this.nbline = nbline
+        this.nbinvader = nbinvader
         this.right = true;
         this.legion = new Array();
         this.HTML = document.createElement("div");
@@ -41,6 +57,8 @@ export class Wave {
         this.HTML.style.left = this.posx+"px";
         let index = 0;
         this.boss = boss;
+
+        /** set bosses information if the @param {boolean} boss is set to true  */  
         if (this.boss === true) {
             
             index = 4;
@@ -49,6 +67,7 @@ export class Wave {
             this.legion.push(boss);
             this.HTML.appendChild(boss.HTML);
         }
+        // handles the storage of each line of invaders in an array named legion
         for (index;index < nbline;index++) {
             let line = new(Array);
             let htmlline = document.createElement("div");
@@ -64,28 +83,32 @@ export class Wave {
         }
     }
 
+    /**
+     * Handles the 'tick' of the entire legion across the screen, once it has reached the border of the screen,
+     * it goes down a certain number of pixels and continue its route until it reaches the dead line, then its Game Over
+    */
+
+    //TODO: faire un game over
+    //TODO: faire un valeur de descente dynamique
+    //TODO: faire un ecran confiné pour laisser une place à notre scoreboard
     tick(){
-        // console.log(this.length);
-        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500){//FIXME: bonne équation pour bounce sur le bord de l'écran
+        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500){
             return
         }
-        // if (this.posx+ this.length >= 250){
-        if (this.posx+2*size >= window.innerWidth-8*size){
+        if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size){
             this.right = false
-            this.posy += 50
+            this.posy += 10
             this.HTML.style.top =  this.posy+"px";
         }else if (this.posx == 0){
             this.right = true
-            this.posy += 50
+            this.posy += 10
             this.HTML.style.top =  this.posy+"px";
         }
         if (this.right){
             this.posx += 2;
-            // this.posy += 10;
             this.HTML.style.left = this.posx+"px";
         }else {
             this.posx -= 2;
-            // this.posy += 10;
             this.HTML.style.left = this.posx+"px";
         }
         this.legion.forEach((element) => {
