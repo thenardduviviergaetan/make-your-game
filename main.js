@@ -13,13 +13,6 @@ let wave = new Wave(5,14,true)
 const Port = "3000"
 
 Pause = loadScreen(Pause)
-    
-window.addEventListener('loadstart', ()=> {
-    let audio = new Audio('./assets/musique.mp3')
-    audio.loop = true
-    audio.volume =0.5
-    audio.play()
-})
 
 let game = document.getElementById('game')
 game.appendChild(wave.HTML)
@@ -31,6 +24,8 @@ await ship.initShip()
 document.addEventListener('keydown',  (key)=> {
     if (key.key == 'd' )rightPressed = true
     if (key.key == 'q' )leftPressed = true
+    if (key.key == 'D' )rightPressed = true
+    if (key.key == 'Q' )leftPressed = true
     if (key.key == 'Escape'){
         Pause = !Pause
         pauseMenu()
@@ -41,6 +36,8 @@ document.addEventListener('keydown',  (key)=> {
 document.addEventListener('keyup', (key)=> {
     if (key.key == 'd' ) rightPressed = false
     if (key.key == 'q' ) leftPressed = false
+    if (key.key == 'D' ) rightPressed = false
+    if (key.key == 'Q' ) leftPressed = false
 })
 
 
@@ -62,10 +59,13 @@ let projo = await bullet.projectileInit()
 /**
  * Handling of the shooting functionnality and of the bullet reaching the target and 'exploding' (removing) it 
  */
+// let sound = new Audio('./assets/shot.mp3')
+// sound.play()
 const shoot =  ()=> {
-//TODO: mettre des sons à l'explosion, tir et boss qui meurt
-let explodeSound = new Audio('./assets/explosion.mp3')
-let invaders = document.querySelectorAll('.invader')
+    //TODO: mettre des sons à l'explosion, tir et boss qui meurt
+    let explodeSound = new Audio('./assets/explosion.mp3')
+    explodeSound.volume = 0.2
+    let invaders = document.querySelectorAll('.invader')
     document.body.appendChild(projo)
     bulletShot = document.getElementById('projectile')
     invaders.forEach(elem=> {
@@ -85,6 +85,7 @@ let invaders = document.querySelectorAll('.invader')
             }else {
                 if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`)score++
                 elem.querySelector('img').src = './assets/Explosion.png'
+                explodeSound.play()
                 setTimeout(() => {
                     elem.remove()
                 }, 250);
