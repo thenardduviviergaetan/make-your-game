@@ -1,14 +1,14 @@
 import {Ship,Projectile} from "./utils/ship.js";
 import { Wave } from "./utils/enemies.js";
 
-//TODO: FAIRE DES BONUS DE RAPID FIRE (on rajoute des shoot()) et rapid movement on rajoute des moveship()
+//TODO: FAIRE DES BONUS DE RAPID FIRE (on rajoute des shoot()) et rapid movement on rajoute des moveship() ET UN KONAMI CODE
 //TODO: mettre 3 vies
 //** Initialization of all the global variables */
 let rightPressed,leftPressed,bulletShot,border
 let score = 0
 let Pause = false
 const ship = new Ship
-let wave = new Wave(5,10,false)
+let wave = new Wave(5,10,true)
 
 
 let game = document.getElementById('game')
@@ -65,8 +65,12 @@ let invaders = document.querySelectorAll('.invader')
         if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
             if (elem.classList.contains('boss')){
                 if (elem.querySelector('img').src == 'http://127.0.0.1:3000/assets/alien.png') score+=5  
+                elem.querySelector('img').src = './assets/Explosion.png'
+                setTimeout(() => {
+                    elem.remove()
+                }, 250);
+                bulletShot.remove()
             }else {
-                console.log(elem.querySelector('img').src)
                 if (elem.querySelector('img').src == 'http://127.0.0.1:3000/assets/alien.png')score++
                 
                 elem.querySelector('img').src = './assets/Explosion.png'
