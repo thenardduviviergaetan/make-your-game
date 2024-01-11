@@ -10,7 +10,7 @@ let score = 0
 let waveNb = 1
 const ship = new Ship
 let wave = new Wave(5,14,true)
-const Port = "3000"
+const Port = "5500"
 let audio = new Audio('./assets/music.mp3')
 let explodeSound = new Audio('./assets/explosion.mp3')
 
@@ -93,6 +93,7 @@ const shoot =  ()=> {
                 bulletShot.remove()
             }else {
                 if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`)score++;explodeSound.play()
+                console.log(score)
                 elem.querySelector('img').src = './assets/Explosion.png'
                 setTimeout(() => {
                     elem.remove()
@@ -105,7 +106,7 @@ const shoot =  ()=> {
         }
     })
     if (bulletShot.style.bottom.slice(0,-2) <= window.innerHeight){
-        bullet.y+=10
+        bullet.y+=2.5
         //if the bullet misses and reach the top of the screen 
     } else {
         bulletShot.remove()
@@ -190,6 +191,7 @@ const pauseMenu = ()=> {
         // listener for the clickable button Restart, it refresh the wave to a freshly new, and reset all timers and score
         restart.addEventListener('click',()=> {
             document.getElementById('menu').remove()
+            document.getElementById('over').remove()
             wave = new Wave(5,14,true)
             game.removeChild(game.firstChild)
             game.appendChild(wave.HTML)

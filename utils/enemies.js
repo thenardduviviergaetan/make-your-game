@@ -123,10 +123,10 @@ export class Wave {
             this.HTML.style.top =  this.posy+"px";
         }
         if (this.right){
-            this.posx += 2; //LE MAX DE VITESSE C 20 SINON C INJOUABLE
+            this.posx += 0.5; //LE MAX DE VITESSE C 20 SINON C INJOUABLE
             this.HTML.style.left = this.posx+"px";
         }else {
-            this.posx -= 2; 
+            this.posx -= 0.5; 
             this.HTML.style.left = this.posx+"px";
         }
         this.legion.forEach((element) => {
