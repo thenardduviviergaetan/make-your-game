@@ -51,6 +51,7 @@ document.addEventListener('keyup', (key)=> {
  * A function that handles X coordinates of the ship
  */
 const moveShip =  ()=> {
+    if (!wave.move) return
     ship.element =  document.getElementById('ship')
     if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=2.5
     if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=2.5
@@ -66,50 +67,58 @@ let projo = await bullet.projectileInit()
  * Handling of the shooting functionnality and of the bullet reaching the target and 'exploding' (removing) it 
  */
 // let sound = new Audio('./assets/shot.mp3')
-// sound.play()
+// explodeSound.load()
+// explodeSound.play()
 const shoot =  ()=> {
-    //TODO: mettre des sons à l'explosion, tir et boss qui meurt
-    //FIXME: explosion delay de 1s environ
+    //TODO: mettre des sons à boss qui meurt,tir et game over
     let invaders = document.querySelectorAll('.invader')
     document.body.appendChild(projo)
     bulletShot = document.getElementById('projectile')
-    invaders.forEach(elem=> {
-        if (elem != null){
-            border = elem.getBoundingClientRect()
-        }
-        //if the bullet reaches one of the invaders, it removes the bullet and the invader
-        if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
-            explodeSound.load()
-            explodeSound.play()
-            if (elem.classList.contains('boss')){
-                if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`) score+=5 ; explodeSound.play()
-                elem.querySelector('img').src = './assets/Explosion.png'
-                setTimeout(() => {
-                    elem.remove()
-                }, 250);
-                bulletShot.remove()
-            }else {
-                if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`)score++;explodeSound.play()
-                elem.querySelector('img').src = './assets/Explosion.png'
-                setTimeout(() => {
-                    elem.remove()
-                }, 250);
-                bulletShot.remove()
-            } 
-            bullet.x=ship.x+21
-            bulletShot.style.left = `${bullet.x}px`
-            bullet.y = ship.y+25
-        }
-    })
-    if (bulletShot.style.bottom.slice(0,-2) <= window.innerHeight){
+    if (wave.move) {
+        invaders.forEach(elem=> {
+            if (elem != null){
+                border = elem.getBoundingClientRect()
+            }
+            //if the bullet reaches one of the invaders, it removes the bullet and the invader
+            if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
+                if (elem.classList.contains('boss')){
+                    if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
+                         score+=5 
+                          explodeSound.load()
+                          explodeSound.play()
+                        }
+                    elem.querySelector('img').src = './assets/Explosion.png'
+                    setTimeout(() => {
+                        elem.remove()
+                    }, 250);
+                    bulletShot.remove()
+                }else {
+                    if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
+                        score++ 
+                         explodeSound.load()
+                         explodeSound.play()
+                       }
+                    elem.querySelector('img').src = './assets/Explosion.png'
+                    setTimeout(() => {
+                        elem.remove()
+                    }, 250);
+                    bulletShot.remove()
+                } 
+                bullet.x=ship.x+21
+                bulletShot.style.left = `${bullet.x}px`
+                bullet.y = ship.y+25
+            }
+        })
+        if (bulletShot.style.bottom.slice(0,-2) <= window.innerHeight){
         bullet.y+=2.5
         //if the bullet misses and reach the top of the screen 
-    } else {
-        bulletShot.remove()
-        bullet.x=ship.x+21
-        bullet.y = ship.y+25
-        bulletShot.style.left = `${bullet.x}px`
-    }
+    }else {
+       bulletShot.remove()
+       bullet.x=ship.x+21
+       bullet.y = ship.y+25
+       bulletShot.style.left = `${bullet.x}px`
+   }
+}
     bulletShot.style.bottom = `${bullet.y}px`
 }
 
@@ -122,6 +131,11 @@ setInterval(() => {
     scoreCount.textContent = `Score : ${score}`
     let waveCount = document.getElementById('wavenb')
     waveCount.textContent = `Wave : ${waveNb}`
+    if (Pause){
+        wave.move = false
+    } else {
+        wave.move = true
+    }
 }, 100);
 
 
@@ -215,38 +229,33 @@ const pauseMenu = ()=> {
  * Handles the launch of the entire program, with the 60 fps functionnality without any framerate dropping 
 */
 function Game(){
-    if (!Pause) {
-        let invaders = document.querySelectorAll('.invader')
-        if (invaders.length == 0){
-            waveNb++
-            wave = new Wave(5,14,true)
-            game.removeChild(game.firstChild)
-            game.appendChild(wave.HTML)
-        }
-        // if this is a game over
-        if (wave.tick()){
-            Pause = !Pause
-            pauseMenu().removeChild(document.getElementById('resume'))
-        }
-        //for testing only
-        for (let rep = 0; rep < 1; rep++) shoot()
-        for (let rep = 0; rep < 1; rep++) moveShip()
-        
+    // if this is a game over
+    if (wave.tick()){
+        Pause = !Pause
+        pauseMenu().removeChild(document.getElementById('resume'))
     }
+    
+    let invaders = document.querySelectorAll('.invader')
+    if (invaders.length == 0){
+        waveNb++
+        wave = new Wave(5,14,true)
+        game.removeChild(game.firstChild)
+        game.appendChild(wave.HTML)
+    }
+    //for testing only
+    for (let rep = 0; rep < 1; rep++) shoot();
+    for (let rep = 0; rep < 1; rep++) moveShip()
     requestAnimationFrame(Game)
 }
 
 let loaded = setInterval(() => {
-    console.log(bool)
     if (bool){
         audio.loop = true
         audio.volume =0.5
-            audio.play()
+        audio.play()
     
         Pause = !Pause
         if (document.getElementById('load') != null) document.getElementById('load').remove()
         Game()
         clearInterval(loaded)}
 }, 100);
-
-

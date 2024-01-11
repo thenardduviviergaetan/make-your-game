@@ -56,6 +56,7 @@ export class Wave {
         this.HTML.style.left = this.posx+"px";
         let index = 0;
         this.boss = boss;
+        this.move = true
 
         /** set bosses information if the @param {boolean} boss is set to true  */  
         if (this.boss === true) {
@@ -90,6 +91,9 @@ export class Wave {
    //TODO: faire un valeur de descente et de déplacement dynamique
    //TODO: faire une bprder confinée pour laisser une place à notre scoreboard
    tick(){
+    if (!this.move) {
+        return
+    }
         if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500){
             let over = document.createElement('img')
             over.src = './assets/game-over.png'
