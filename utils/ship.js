@@ -4,7 +4,7 @@
  */
 class Ship {
     constructor(){
-        this.x = window.innerWidth/2 -45/2,
+        this.x = window.innerWidth/2-45/2,
         this.y = 0
         this.element 
         }

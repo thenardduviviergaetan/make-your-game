@@ -1,3 +1,4 @@
+// import { movements } from "../main.js";
 const size = 32;
 /**
  * Class Ennemy is all the infos about each invader and boss
@@ -127,7 +128,7 @@ export class Wave {
             this.HTML.style.top =  this.posy+"px";
         }
         if (this.right){
-            this.posx += 0.5; //LE MAX DE VITESSE C 20 SINON C INJOUABLE
+            this.posx += 0.5;
             this.HTML.style.left = this.posx+"px";
         }else {
             this.posx -= 0.5; 
