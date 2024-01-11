@@ -13,12 +13,8 @@ let wave = new Wave(5,14,true)
 const Port = "5500"
 let audio = new Audio('./assets/music.mp3')
 let explodeSound = new Audio('./assets/explosion.mp3')
+let shotSound = new Audio('./assets/shot.mp3')
 
-setTimeout(() => {
-audio.loop = true
-audio.volume =0.5
-audio.play()
-}, 4800);
 
 explodeSound.volume = 0.2
 
@@ -56,8 +52,8 @@ document.addEventListener('keyup', (key)=> {
  */
 const moveShip =  ()=> {
     ship.element =  document.getElementById('ship')
-    if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=10
-    if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=10
+    if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=2.5
+    if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=2.5
      ship.element.style.left = `${ship.x}px`
 }
 
@@ -83,7 +79,8 @@ const shoot =  ()=> {
         }
         //if the bullet reaches one of the invaders, it removes the bullet and the invader
         if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
-            // explodeSound.play()
+            explodeSound.load()
+            explodeSound.play()
             if (elem.classList.contains('boss')){
                 if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`) score+=5 ; explodeSound.play()
                 elem.querySelector('img').src = './assets/Explosion.png'
@@ -93,7 +90,6 @@ const shoot =  ()=> {
                 bulletShot.remove()
             }else {
                 if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`)score++;explodeSound.play()
-                console.log(score)
                 elem.querySelector('img').src = './assets/Explosion.png'
                 setTimeout(() => {
                     elem.remove()
@@ -191,7 +187,7 @@ const pauseMenu = ()=> {
         // listener for the clickable button Restart, it refresh the wave to a freshly new, and reset all timers and score
         restart.addEventListener('click',()=> {
             document.getElementById('menu').remove()
-            document.getElementById('over').remove()
+            if (document.getElementById('over') != null)document.getElementById('over').remove()
             wave = new Wave(5,14,true)
             game.removeChild(game.firstChild)
             game.appendChild(wave.HTML)
@@ -241,7 +237,12 @@ function Game(){
 }
 
 let loaded = setInterval(() => {
+    console.log(bool)
     if (bool){
+        audio.loop = true
+        audio.volume =0.5
+            audio.play()
+    
         Pause = !Pause
         if (document.getElementById('load') != null) document.getElementById('load').remove()
         Game()

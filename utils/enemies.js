@@ -109,8 +109,8 @@ export class Wave {
                     over.style.backgroundColor = ''
                     over.style.transitionProperty ='transform,background-color'
                     over.style.transitionDuration = '500ms,200ms'
-                },800)
-            }, 800);
+                },500)
+            }, 500);
             return true
         }
         if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size){
