@@ -10,7 +10,7 @@ let rightPressed,leftPressed,bulletShot,border
 let movements = []
 let score = 0
 let waveNb = 1
-const ship = new Ship
+let ship = new Ship
 let wave = new Wave(5,14,true)
 const Port = "5500"
 let audio = new Audio('./assets/music.mp3')
@@ -56,7 +56,7 @@ explodeSound.volume = 0.2
 //     }, 1);
 // }
 
-Pause = loadScreen(Pause)
+// Pause = loadScreen(Pause)
 
 /**
  * @returns {Array}
@@ -94,10 +94,10 @@ document.addEventListener('keyup', (key)=> {
  */
 const moveShip =  ()=> {
     if (!wave.move) return
-    ship.element =  document.getElementById('ship')
-    if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=2.5
-    if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=2.5
-     ship.element.style.transform = `translateX(${ship.x}px)`
+    ship.HTML =  document.getElementById('ship')
+    if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=1.5
+    if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=1.5
+     ship.HTML.style.transform = `translateX(${ship.x}px)`
 }
 
 /** Initialization of the bullet shot by the ship */
@@ -283,18 +283,18 @@ function Game(){
     for (let rep = 0; rep < 1; rep++) moveShip()
     requestAnimationFrame(Game)
 }
-
-let loaded = setInterval(() => {
-    if (bool){
-        // hertzChecker()
-        audio.loop = true
-                audio.volume =0.5
-                audio.play()
-                Pause = !Pause
-                if (document.getElementById('load') != null) document.getElementById('load').remove()
-                Game()
-        clearInterval(loaded)}
-}, 100);
+Game()
+// let loaded = setInterval(() => {
+//     if (bool){
+//         // hertzChecker()
+//         audio.loop = true
+//                 audio.volume =0.5
+//                 audio.play()
+//                 Pause = !Pause
+//                 if (document.getElementById('load') != null) document.getElementById('load').remove()
+//                 Game()
+//         clearInterval(loaded)}
+// }, 100);
 
 // setInterval(() => {
 //     console.log(ship.x)

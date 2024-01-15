@@ -6,19 +6,17 @@ class Ship {
     constructor(){
         this.x = window.innerWidth/2-45/2,
         this.y = 0
-        this.element 
+        this.HTML = document.createElement('img')
+        this.HTML.src = './assets/ship-space.png'
+        this.HTML.id = 'ship'
+        this.HTML.style.width = '45px'
+        this.HTML.style.position = 'absolute'
+        this.HTML.style.bottom= `${this.y}px`
+        this.HTML.style.transform = `translateX(${this.x}px)`
         }
     
     initShip = async ()=> {
-        let ship = document.createElement('img')
-        ship.src = './assets/ship-space.png'
-        ship.id = 'ship'
-        ship.style.width = '45px'
-        ship.style.position = 'absolute'
-        ship.style.bottom= `${this.y}px`
-        ship.style.transform = `translateX(${this.x}px)`
-        document.body.appendChild(ship)
-       return ship
+        document.body.appendChild(this.HTML)
     }
 }
 
@@ -31,19 +29,19 @@ class Projectile {
     constructor(owner){
         this.x = owner.x+21
         this.y = owner.y+26
+        this.HTML =document.createElement('div')
+        this.y = 10
+        this.HTML.id ='projectile'
+        this.HTML.style.backgroundColor = 'white'
+        this.HTML.style.position = 'absolute'
+        this.HTML.style.width = '3px'
+        this.HTML.style.height = '14px'
+        this.HTML.style.transform = `translateX(${this.x}px)`
+        this.HTML.style.bottom = `${this.y}px`
     }
 
     projectileInit =  async ()=> {
-        let projectile = document.createElement('div')
-        this.y = 10
-        projectile.id ='projectile'
-        projectile.style.backgroundColor = 'white'
-        projectile.style.position = 'absolute'
-        projectile.style.width = '3px'
-        projectile.style.height = '14px'
-        projectile.style.transform = `translateX(${this.x}px)`
-        projectile.style.bottom = `${this.y}px`
-        document.body.appendChild(projectile)
+        document.body.appendChild(this.HTML)
     }
 }
 

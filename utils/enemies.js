@@ -1,5 +1,6 @@
 // import { movements } from "../main.js";
 const size = 32;
+let nbLine 
 let tabProjectil = new Array()
 /**
  * Class Ennemy is all the infos about each invader and boss
@@ -51,6 +52,7 @@ class Ennemy {
 export class Wave {
     constructor (nbline,nbinvader,boss){
         this.nbline = nbline
+        nbLine = nbline
         this.nbinvader = nbinvader
         this.right = true;
         this.legion = new Array();
@@ -179,7 +181,7 @@ export class Wave {
 class InvaderProjectile {
     constructor(posx,posy){
         this.x = posx+size/2
-        this.y = posy
+        this.y = posy - (size/2)*nbLine
         this.HTML = document.createElement('div')
         this.HTML.classList.add("invader-projectile")
         this.HTML.style.backgroundColor = 'red'
