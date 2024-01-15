@@ -212,7 +212,8 @@ const timer = ()=> {
     }, 10);
 }
 timer()
-
+//TODO: POUR LIMITER RENDERING ET PAINTING document.createDocumentFragment()
+// tout mettre en dans les constructors
 /**
  * Handles the 'Pause' functionnality where there is a 'Resume' and 'Restart' choices
  */
