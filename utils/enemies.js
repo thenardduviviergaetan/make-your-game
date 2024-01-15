@@ -1,5 +1,6 @@
 // import { movements } from "../main.js";
 const size = 32;
+let tabProjectil = new Array()
 /**
  * Class Ennemy is all the infos about each invader and boss
  * @param {number} x - X coordinates of each invader
@@ -11,7 +12,7 @@ class Ennemy {
     constructor (x,y,levelsize,...nameclass) {
         this.HTML = document.createElement("div");
         nameclass.forEach(element => {
-            this.HTML.classList.add(element)
+            this.HTML.classList.add(element);
         });
         this.HTML.style.position = "absolute";
         this.texture = document.createElement("img");
@@ -21,6 +22,8 @@ class Ennemy {
         this.HTML.appendChild(this.texture);
         this.posx = x;
         this.posy = y;
+        this.x = x;
+        this.y = y;
         this.HTML.style.top =  this.posy+"px";
         this.HTML.style.left = this.posx+"px";
         this.alive = true;
@@ -31,8 +34,10 @@ class Ennemy {
     
     // Handles the dynamics coordinates of each invaders
     tick(lx,ly){
-        this.HTML.style.top =  ly + this.posy+"px";
-        this.HTML.style.left = lx + this.posx+"px";
+        this.posy = ly + this.y
+        this.posx = lx + this.x
+        this.HTML.style.top =  `${this.posy}px`;
+        this.HTML.style.left = `${this.posx}px`;
     }
 }
 
@@ -92,9 +97,9 @@ export class Wave {
    //TODO: faire un valeur de descente et de déplacement dynamique
    //TODO: faire une bprder confinée pour laisser une place à notre scoreboard
    tick(){
-    if (!this.move) {
-        return
-    }
+        if (!this.move) {
+            return
+        }
         if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500){
             let over = document.createElement('img')
             over.src = './assets/game-over.png'
@@ -143,5 +148,59 @@ export class Wave {
                 element.tick(this.posx,this.posy)
             }
         });
+        if (tabProjectil.length < 5){
+            let invaders = document.querySelectorAll('.invader')
+            let random = Math.random() * 100
+            while (random > invaders.length){
+                random -= invaders.length
+            }
+            random = random.toFixed(0)
+            // invaders.forEach(element => {
+                let element = invaders[random]
+                if (element !== undefined && !element.classList.contains("boss")){
+                    // console.log(element.getBoundingClientRect())
+                    let projectile = new InvaderProjectile(element.getBoundingClientRect().x,element.getBoundingClientRect().y)
+                    projectile.tick()
+                    tabProjectil.push(projectile)
+                    document.body.appendChild(projectile.HTML)
+                }
+            // })
+        }
+        tabProjectil.forEach(element => {
+            if(element.tick()){
+                tabProjectil.splice(tabProjectil.indexOf(element),1);
+            }
+        });
+    }
+}
+
+/**
+ * Initialize the location from where the projectile will be shot
+ * @param {Class} posx - The shooter, where the projectile will be shot 
+ * @param {Class} posy - The shooter, where the projectile will be shot 
+ * @returns {HTMLDivElement} - The projectile foramtted as a div
+ */
+class InvaderProjectile {
+    constructor(posx,posy){
+        this.x = posx+size/2
+        this.y = posy
+        this.HTML = document.createElement('div')
+        this.HTML.classList.add("invader-projectile")
+        this.HTML.style.backgroundColor = 'red'
+        this.HTML.style.position = 'absolute'
+        this.HTML.style.width = '3px'
+        this.HTML.style.height = '14px'
+        this.HTML.style.transform = `translateX(${this.x}px)`
+        // this.HTML.style.top = `${this.y}px`
+    }
+
+    tick() {
+        this.y += 2.5
+        // console.log(this.y)
+        this.HTML.style.transform = `translate(${this.x}px,${this.y}px)`
+        if (this.y >= window.innerHeight){
+            this.HTML.remove()
+            return true
+        }
     }
 }
