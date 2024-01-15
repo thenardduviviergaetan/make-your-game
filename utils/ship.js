@@ -15,8 +15,8 @@ class Ship {
         ship.id = 'ship'
         ship.style.width = '45px'
         ship.style.position = 'absolute'
-        ship.style.bottom= `${this.y}`
-        ship.style.left = `${this.x}px`
+        ship.style.bottom= `${this.y}px`
+        ship.style.transform = `translateX(${this.x}px)`
         document.body.appendChild(ship)
        return ship
     }
@@ -41,9 +41,9 @@ class Projectile {
         projectile.style.position = 'absolute'
         projectile.style.width = '3px'
         projectile.style.height = '14px'
-        projectile.style.left = `${this.x}px`
+        projectile.style.transform = `translateX(${this.x}px)`
         projectile.style.bottom = `${this.y}px`
-        return projectile
+        document.body.appendChild(projectile)
     }
 }
 

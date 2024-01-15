@@ -97,14 +97,12 @@ const moveShip =  ()=> {
     ship.element =  document.getElementById('ship')
     if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=2.5
     if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=2.5
-     ship.element.style.left = `${ship.x}px`
+     ship.element.style.transform = `translateX(${ship.x}px)`
 }
 
 /** Initialization of the bullet shot by the ship */
 let bullet = new Projectile(ship)
-let projo = await bullet.projectileInit()
-
-
+await bullet.projectileInit()
 /**
  * Handling of the shooting functionnality and of the bullet reaching the target and 'exploding' (removing) it 
  */
@@ -114,7 +112,6 @@ let projo = await bullet.projectileInit()
 const shoot =  ()=> {
     //TODO: mettre des sons à boss qui meurt,tir et game over
     let invaders = document.querySelectorAll('.invader')
-    document.body.appendChild(projo)
     bulletShot = document.getElementById('projectile')
     if (wave.move) {
         invaders.forEach(elem=> {
@@ -125,15 +122,14 @@ const shoot =  ()=> {
             if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
                 if (elem.classList.contains('boss')){
                     if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
-                         score+=5 
-                          explodeSound.load()
-                          explodeSound.play()
+                        score+=5 
+                        explodeSound.load()
+                        explodeSound.play()
                         }
                     elem.querySelector('img').src = './assets/Explosion.png'
                     setTimeout(() => {
                         elem.remove()
                     }, 250);
-                    bulletShot.remove()
                 }else {
                     if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
                         score++ 
@@ -144,24 +140,23 @@ const shoot =  ()=> {
                     setTimeout(() => {
                         elem.remove()
                     }, 250);
-                    bulletShot.remove()
                 } 
                 bullet.x=ship.x+21
-                bulletShot.style.left = `${bullet.x}px`
+                // bulletShot.style.transform = `translateX(${bullet.x}px)`
                 bullet.y = ship.y+25
             }
+            bulletShot.style.transform = `translate(${bullet.x}px,-${bullet.y}px)`
         })
         if (bulletShot.style.bottom.slice(0,-2) <= window.innerHeight){
         bullet.y+=2.5
         //if the bullet misses and reach the top of the screen 
-    }else {
-       bulletShot.remove()
-       bullet.x=ship.x+21
-       bullet.y = ship.y+25
-       bulletShot.style.left = `${bullet.x}px`
-   }
-}
-    bulletShot.style.bottom = `${bullet.y}px`
+        }else {
+        bullet.x=ship.x+21
+        bullet.y =ship.y+25
+        bulletShot.style.transform = `translateX(${bullet.x}px)`
+        bulletShot.style.transform = `translateY(-${bullet.y}px)`
+        }
+    }
 }
 
 
@@ -303,6 +298,8 @@ let loaded = setInterval(() => {
         clearInterval(loaded)}
 }, 100);
 
-
+// setInterval(() => {
+//     console.log(ship.x)
+// },500);
 
 // export {movements}
