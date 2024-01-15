@@ -148,23 +148,19 @@ export class Wave {
                 element.tick(this.posx,this.posy)
             }
         });
-        if (tabProjectil.length < 5){
-            let invaders = document.querySelectorAll('.invader')
+        let invaders = document.querySelectorAll('.invader')
+        if (tabProjectil.length < 5 && tabProjectil.length < invaders.length ){
             let random = Math.random() * 100
             while (random > invaders.length){
                 random -= invaders.length
             }
             random = random.toFixed(0)
-            // invaders.forEach(element => {
                 let element = invaders[random]
                 if (element !== undefined && !element.classList.contains("boss")){
-                    // console.log(element.getBoundingClientRect())
                     let projectile = new InvaderProjectile(element.getBoundingClientRect().x,element.getBoundingClientRect().y)
-                    projectile.tick()
                     tabProjectil.push(projectile)
                     document.body.appendChild(projectile.HTML)
                 }
-            // })
         }
         tabProjectil.forEach(element => {
             if(element.tick()){
@@ -195,7 +191,7 @@ class InvaderProjectile {
     }
 
     tick() {
-        this.y += 2.5
+        this.y += 1.5
         // console.log(this.y)
         this.HTML.style.transform = `translate(${this.x}px,${this.y}px)`
         if (this.y >= window.innerHeight){
