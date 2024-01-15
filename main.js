@@ -147,18 +147,16 @@ const shoot =  ()=> {
             }
             bulletShot.style.transform = `translate(${bullet.x}px,-${bullet.y}px)`
         })
-        if (bulletShot.style.bottom.slice(0,-2) <= window.innerHeight){
+        if (bullet.y <= window.innerHeight){
         bullet.y+=2.5
         //if the bullet misses and reach the top of the screen 
         }else {
         bullet.x=ship.x+21
         bullet.y =ship.y+25
-        bulletShot.style.transform = `translateX(${bullet.x}px)`
-        bulletShot.style.transform = `translateY(-${bullet.y}px)`
-        }
+    }
+    bulletShot.style.transform = `translate(${bullet.x}px,-${bullet.y}px)`
     }
 }
-
 
 
 
