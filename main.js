@@ -14,7 +14,6 @@ const Port = "5500"
 let audio = new Audio('./assets/music.mp3')
 audio.volume =0.5
 audio.play()
-let shotSound = new Audio('./assets/shot.mp3')
 
 // const hertzChecker =  ()=> {
 //     let movementShip,movementWave

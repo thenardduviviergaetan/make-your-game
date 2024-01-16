@@ -4,7 +4,9 @@ let border
 let score = 0
 let tab = [`http://127.0.0.1:5500/assets/sprite/saucer1b.ico`,`http://127.0.0.1:5500/assets/sprite/saucer2b.ico`,`http://127.0.0.1:5500/assets/sprite/saucer3b.ico`]
 let explodeSound = new Audio('./assets/explosion.mp3')
-explodeSound.volume = 0.2
+explodeSound.volume = 1
+let shotSound = new Audio('./assets/shoot.wav')
+shotSound.volume = 0.5
 /**
  * Initialize the entire characteristics of the ship itself
  * @returns {HTMLImageElement} - The ship in a HTML Image Element format
@@ -23,6 +25,7 @@ class Ship {
         }
     
     initShip = async ()=> {
+        shotSound.play()
         document.body.appendChild(this.HTML)
     }
 }
@@ -37,7 +40,7 @@ class Projectile {
 
     constructor(x,y){
         this.x = x
-        this.y = y+26
+        this.y = y
         this.posx = x+21
         this.posy = y+26
         this.HTML =document.createElement('div')
@@ -58,7 +61,7 @@ class Projectile {
         //TODO: mettre des sons à boss qui meurt,tir et game over
         let invaders = document.querySelectorAll('.invader')
         if (wave.move) {
-            invaders.forEach(elem=> {
+             invaders.forEach(elem=> {
                 if (elem != null){
                     border = elem.getBoundingClientRect()
                 }
@@ -87,6 +90,7 @@ class Projectile {
                     } 
                     this.posx=this.x+21
                     this.posy = this.y
+                    shotSound.play()
                 }
                 this.HTML.style.transform = `translate(${this.posx}px,-${this.posy}px)`
             })
@@ -96,6 +100,7 @@ class Projectile {
             }else {
             this.posx=this.x+21
             this.posy =this.y
+            shotSound.play()
         }
         this.HTML.style.transform = `translate(${this.posx}px,-${this.posy}px)`
         }
