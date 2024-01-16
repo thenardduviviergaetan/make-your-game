@@ -24,20 +24,6 @@ let r = new Audio('./assets/boom.mp3')
 const hertzChecker =  ()=> {
     let movementShip,movementWave,ennemyShot
     getScreenRefreshRate(function(Hz){
-        // if (Hz >= 50 && Hz <= 60) {
-        //     setTimeout(() => {
-        //         movementShip = 7
-        //         movementWave = 2
-        //         ennemyShot = 3
-        //     }, 250);
-        // }
-        // if (Hz >= 110) {
-        //     setTimeout(() => {
-        //         movementShip = 1.5
-        //         movementWave = 0.8
-        //         ennemyShot = 0.75
-        //     }, 250);
-        // }
         if (Hz >= 50 && Hz <= 60) {
             setTimeout(() => {
                 movementShip = 7
