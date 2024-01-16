@@ -64,7 +64,7 @@ body{
     transition-duration: 350ms;
 }
 
-#score,#timer,#wavenb{
+#score,#timer,#wavenb,#hp{
     display: flex;
     align-items: center;
     justify-content: center;

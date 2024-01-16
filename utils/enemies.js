@@ -2,6 +2,7 @@ import { movements } from "../main.js";
 import { randomize } from "./utilsFunc.js";
 const size = 32;
 let nbLine 
+let hp = 3
 let tabProjectil = new Array()
 /**
  * Class Ennemy is all the infos about each invader and boss
@@ -90,16 +91,22 @@ export class Wave {
      * it goes down a certain number of pixels and continue its route until it reaches the dead line, then its Game Over
     */
 
+    overinit(){
+        let over = document.createElement('img')
+            over.src = './assets/game-over.png'
+            over.id = 'over'
+            over.style.opacity = '0%'
+            document.body.appendChild(over)
+    }
+    
    //TODO: faire un valeur de descente et de déplacement dynamique
    tick(){
         if (!this.move) {
             return
         }
-        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500){
-            let over = document.createElement('img')
-            over.src = './assets/game-over.png'
-            over.id = 'over'
-            document.body.appendChild(over)
+        document.getElementById('hp').textContent = `Hp : ${hp}`
+        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500 || hp == 0){
+            document.getElementById('over')
             setInterval(() => {
                 over.style.transform = 'scale(0.8)'
                 over.style.transition = '500ms'
@@ -143,6 +150,7 @@ export class Wave {
                 tabProjectil.splice(tabProjectil.indexOf(element),1);
             }
         });
+
     }
 }
 
@@ -168,8 +176,26 @@ class InvaderProjectile {
     tick() {
         this.y += movements[2]
         this.HTML.style.transform = `translate(${this.x}px,${this.y}px)`
+        let ship = document.getElementById('ship')
+        let border = ship.getBoundingClientRect()
         if (this.y >= window.innerHeight){
             this.HTML.remove()
+            return true
+        } else if (border.y +10 >= this.y && border.y-110<= this.y && border.x+50 >= this.x && this.x >= border.x -5 && !ship.classList.contains('god') ) {
+            ship.classList.toggle('god')
+            hp--
+            this.HTML.remove()
+            ship.style.opacity = '0%'
+            setTimeout(() => {
+                ship.style.opacity = '100%'
+                    setTimeout(() => {
+                        ship.style.opacity = '0%'
+                            setTimeout(() => {
+                            ship.style.opacity = '100%'
+                            ship.classList.toggle('god')
+                        }, 250);
+                    }, 250);
+            }, 200);
             return true
         }
     }

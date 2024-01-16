@@ -18,6 +18,8 @@ let audio = new Audio('./assets/music.mp3')
 audio.volume =0.5
 let shotSound = new Audio('./assets/shoot.wav')
 shotSound.volume = 0.5
+let r = new Audio('./assets/boom.mp3')
+
 
 const hertzChecker =  ()=> {
     let movementShip,movementWave,ennemyShot
@@ -154,23 +156,13 @@ const pauseMenu = ()=> {
         // listener for the clickable button Resume, it inverts the value of Pause boolean, works like a 'toggle' for the pause menu to showup
         document.getElementById('resume').addEventListener('click', ()=> {
             document.getElementById('menu').style.opacity = '0%'
-            Pause = !Pause
+            Pause = false
             audio.play()
         })
 
         // listener for the clickable button Restart, it refresh the wave to a freshly new, and reset all timers and score
         document.getElementById('restart').addEventListener('click',()=> {
-            document.getElementById('menu').style.opacity = '0%'
-            if (document.getElementById('over') != null)document.getElementById('over').style.opacity = '0%'
-            wave = new Wave(5,14,true)
-            game.removeChild(game.firstChild)
-            game.appendChild(wave.HTML)
-            min=0,sec=0,milli=0
-            score = 0
-            waveNb = 1
-            Pause = !Pause
-            audio.load()
-            audio.play()
+            location.reload()
         })
         return menu
         // if we were already on pause, it delete the menu to resume the current game 
@@ -183,11 +175,14 @@ const pauseMenu = ()=> {
 /** 
  * Handles the launch of the entire program, with the 60 fps functionnality without any framerate dropping 
 */
+wave.overinit()
 function Game(){
     // if this is a game over
     if (wave.tick()){
         Pause = !Pause
-        pauseMenu().removeChild(document.getElementById('resume'))
+        document.getElementById('over').style.opacity = '100%'
+        pauseMenu()
+        document.getElementById('resume').style.opacity = '0%'
     }
     
     let invaders = document.querySelectorAll('.invader')
@@ -216,5 +211,24 @@ let loaded = setInterval(() => {
             clearInterval(loaded)}
         }
 }, 100);
+
+
+
+var k = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
+n = 0;
+document.addEventListener('keydown',(e) => {
+    if (e.keyCode === k[n++]) {
+        if (n === k.length) {
+            audio.pause()
+            r.play()
+            n = 0;
+            return false;
+        }
+    }
+    else {
+        n = 0;
+    }
+});
+
 
 export {wave,Port,movements}

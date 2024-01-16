@@ -22,7 +22,9 @@ class Ship {
         this.HTML.style.bottom= `${this.y}px`
         this.HTML.style.transform = `translateX(${this.x}px)`
         }
-    
+        scoreReset(){
+            score = 0
+        }
     initShip = async ()=> {
         document.body.appendChild(this.HTML)
     }
@@ -68,8 +70,8 @@ class Projectile {
                     if (elem.classList.contains('boss')){
                         if (tab.includes(elem.querySelector('img').src)){
                             score+=5 
-                            explodeSound.load()
-                            explodeSound.play()
+                                explodeSound.load()
+                                explodeSound.play()
                             }
                         elem.querySelector('img').src = './assets/Explosion.png'
                         setTimeout(() => {
@@ -78,8 +80,8 @@ class Projectile {
                     }else {
                         if (tab.includes(elem.querySelector('img').src)){
                             score++ 
-                             explodeSound.load()
-                             explodeSound.play()
+                                explodeSound.load()
+                                explodeSound.play()
                            }
                         elem.querySelector('img').src = './assets/Explosion.png'
                         setTimeout(() => {
