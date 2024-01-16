@@ -14,6 +14,8 @@ let ship = new Ship
 let wave = new Wave(5,14,true)
 const Port = "5500"
 let audio = new Audio('./assets/music.mp3')
+audio.volume =0.5
+        audio.play()
 let explodeSound = new Audio('./assets/explosion.mp3')
 let shotSound = new Audio('./assets/shot.mp3')
 explodeSound.volume = 0.2
@@ -102,7 +104,8 @@ const moveShip =  ()=> {
 
 /** Initialization of the bullet shot by the ship */
 let bullet = new Projectile(ship)
-await bullet.projectileInit()
+let projo = await bullet.projectileInit()
+// await bullet.projectileInit()
 /**
  * Handling of the shooting functionnality and of the bullet reaching the target and 'exploding' (removing) it 
  */
@@ -111,6 +114,7 @@ await bullet.projectileInit()
 // explodeSound.play()
 const shoot =  ()=> {
     //TODO: mettre des sons à boss qui meurt,tir et game over
+    document.body.appendChild(projo)
     let invaders = document.querySelectorAll('.invader')
     bulletShot = document.getElementById('projectile')
     if (wave.move) {
@@ -206,7 +210,6 @@ const timer = ()=> {
 }
 timer()
 //TODO: POUR LIMITER RENDERING ET PAINTING document.createDocumentFragment()
-// tout mettre en dans les constructors
 /**
  * Handles the 'Pause' functionnality where there is a 'Resume' and 'Restart' choices
  */
@@ -232,7 +235,6 @@ document.body.appendChild(menu)
 menuInit()
 
 const pauseMenu = ()=> {
-    console.log(Pause)
     // it "asks" to the listener above if the escape key has been pressed, if it pressed then it enters in this condition block 
     if (Pause) {
         document.getElementById('menu').style.opacity = '100%'

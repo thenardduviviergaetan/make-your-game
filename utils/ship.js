@@ -41,7 +41,7 @@ class Projectile {
     }
 
     projectileInit =  async ()=> {
-        document.body.appendChild(this.HTML)
+        return this.HTML
     }
 }
 

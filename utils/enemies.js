@@ -189,12 +189,10 @@ class InvaderProjectile {
         this.HTML.style.width = '3px'
         this.HTML.style.height = '14px'
         this.HTML.style.transform = `translateX(${this.x}px)`
-        // this.HTML.style.top = `${this.y}px`
     }
 
     tick() {
         this.y += 1.5
-        // console.log(this.y)
         this.HTML.style.transform = `translate(${this.x}px,${this.y}px)`
         if (this.y >= window.innerHeight){
             this.HTML.remove()
