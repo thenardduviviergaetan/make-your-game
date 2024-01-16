@@ -210,34 +210,44 @@ timer()
 /**
  * Handles the 'Pause' functionnality where there is a 'Resume' and 'Restart' choices
  */
+const menuInit = ()=> {
+let menu = document.createElement('div')
+menu.style.opacity = '0%'
+menu.id = 'menu'
+menu.style.top = `${(window.innerHeight/2)-150}px`
+let title = document.createElement('h1')
+title.id = 'title'
+title.textContent = 'Menu'
+let resume = document.createElement('button')
+resume.id = 'resume'
+resume.textContent = 'Resume'
+let restart = document.createElement('button')
+restart.id = 'restart'
+restart.textContent = 'Restart'
+menu.appendChild(title)
+menu.appendChild(resume)
+menu.appendChild(restart)
+document.body.appendChild(menu)
+}
+menuInit()
+
 const pauseMenu = ()=> {
+    console.log(Pause)
     // it "asks" to the listener above if the escape key has been pressed, if it pressed then it enters in this condition block 
     if (Pause) {
+        document.getElementById('menu').style.opacity = '100%'
         audio.pause()
-        let menu = document.createElement('div')
-        menu.id = 'menu'
-        menu.style.top = `${(window.innerHeight/2)-150}px`
-        let title = document.createElement('h1')
-        title.id = 'title'
-        title.textContent = 'Menu'
-
-        let resume = document.createElement('button')
-        resume.id = 'resume'
-        resume.textContent = 'Resume'
         // listener for the clickable button Resume, it inverts the value of Pause boolean, works like a 'toggle' for the pause menu to showup
-        resume.addEventListener('click', ()=> {
-            document.getElementById('menu').remove()
+        document.getElementById('resume').addEventListener('click', ()=> {
+            document.getElementById('menu').style.opacity = '0%'
             Pause = !Pause
             audio.play()
         })
-        let restart = document.createElement('button')
-        restart.id = 'restart'
-        restart.textContent = 'Restart'
 
         // listener for the clickable button Restart, it refresh the wave to a freshly new, and reset all timers and score
-        restart.addEventListener('click',()=> {
-            document.getElementById('menu').remove()
-            if (document.getElementById('over') != null)document.getElementById('over').remove()
+        document.getElementById('restart').addEventListener('click',()=> {
+            document.getElementById('menu').style.opacity = '0%'
+            if (document.getElementById('over') != null)document.getElementById('over').style.opacity = '0%'
             wave = new Wave(5,14,true)
             game.removeChild(game.firstChild)
             game.appendChild(wave.HTML)
@@ -248,16 +258,11 @@ const pauseMenu = ()=> {
             audio.load()
             audio.play()
         })
-
-        menu.appendChild(title)
-        menu.appendChild(resume)
-        menu.appendChild(restart)
-        document.body.appendChild(menu) 
         return menu
         // if we were already on pause, it delete the menu to resume the current game 
     } else {
         audio.play()
-        if (document.getElementById('menu') !== null)document.getElementById('menu').remove()
+        if (document.getElementById('menu') !== null)document.getElementById('menu').style.opacity = '0%'
     }
 }
 
