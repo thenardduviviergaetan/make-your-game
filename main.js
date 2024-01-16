@@ -24,21 +24,40 @@ let r = new Audio('./assets/boom.mp3')
 const hertzChecker =  ()=> {
     let movementShip,movementWave,ennemyShot
     getScreenRefreshRate(function(Hz){
+        // if (Hz >= 50 && Hz <= 60) {
+        //     setTimeout(() => {
+        //         movementShip = 7
+        //         movementWave = 2
+        //         ennemyShot = 3
+        //     }, 250);
+        // }
+        // if (Hz >= 110) {
+        //     setTimeout(() => {
+        //         movementShip = 1.5
+        //         movementWave = 0.8
+        //         ennemyShot = 0.75
+        //     }, 250);
+        // }
         if (Hz >= 50 && Hz <= 60) {
             setTimeout(() => {
                 movementShip = 7
                 movementWave = 2
                 ennemyShot = 3
             }, 250);
-        }
-        if (Hz >= 110) {
+        } else if (Hz >= 230 && Hz <= 240) {
             setTimeout(() => {
                 movementShip = 1.5
                 movementWave = 0.8
                 ennemyShot = 0.75
             }, 250);
+        } else if (Hz >= 118 && Hz <= 145){
+            setTimeout(() => {
+                movementShip = 3
+                movementWave = 1.6
+                ennemyShot = 1.5
+            }, 250);
         }
-    },false)
+    },true)
     let int = setInterval(() => {
         if (movementShip !== undefined && movementWave !== undefined &&movementShip !== '' && movementWave !== '' ) {
             movements.push(movementShip)
