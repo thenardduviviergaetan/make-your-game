@@ -34,7 +34,7 @@ class Ship {
 class Projectile {
 
     constructor(x,y){
-        this.x = x+21
+        this.x = x
         this.y = y+26
         this.posx = x+21
         this.posy = y+26
