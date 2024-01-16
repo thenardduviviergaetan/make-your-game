@@ -2,7 +2,6 @@
 const size = 32;
 let nbLine 
 let tabProjectil = new Array()
-
 /**
  * Class Ennemy is all the infos about each invader and boss
  * @param {number} x - X coordinates of each invader
@@ -32,15 +31,6 @@ class Ennemy {
         this.damage = 1;
         this.size = size*levelsize;
     }
-
-    
-    // Handles the dynamics coordinates of each invaders
-    tick(lx,ly){
-        this.posy = ly + this.y
-        this.posx = lx + this.x
-        this.HTML.style.top =  `${this.posy}px`;
-        this.HTML.style.left = `${this.posx}px`;
-    }
 }
 
 /**
@@ -61,8 +51,9 @@ export class Wave {
         this.HTML.classList.add("wave");
         this.posx = document.getElementById('score').getBoundingClientRect().right;
         this.posy = 0;
+        this.HTML.style.position = "absolute"
         this.HTML.style.top =  this.posy+"px";
-        this.HTML.style.left = this.posx+"px";
+        this.HTML.style.transform = `translateX(${this.posx}px)`
         let index = 0;
         this.boss = boss;
         this.move = true
@@ -126,31 +117,12 @@ export class Wave {
             }, 500);
             return true
         }
-        if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size){
-            this.right = false
+        if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size || this.posx < document.getElementById('score').getBoundingClientRect().right){
+            this.right = !this.right
             this.posy += 10
-            this.HTML.style.top =  this.posy+"px";
-        }else if (this.posx <= document.getElementById('score').getBoundingClientRect().right){
-            this.right = true
-            this.posy += 10
-            this.HTML.style.top =  this.posy+"px";
         }
-        if (this.right){
-            this.posx += 0.5;
-            this.HTML.style.left = this.posx+"px";
-        }else {
-            this.posx -= 0.5; 
-            this.HTML.style.left = this.posx+"px";
-        }
-        this.legion.forEach((element) => {
-            if (Array.isArray(element)){
-                element.forEach((lineelement) => {
-                    lineelement.tick(this.posx,this.posy)
-                })
-            }else{
-                element.tick(this.posx,this.posy)
-            }
-        });
+        this.posx += this.right ? 0.5 : -0.5 
+        this.HTML.style.transform = `translate(${this.posx}px,${this.posy}px)`
         let invaders = document.querySelectorAll('.invader')
         if (tabProjectil.length < 5 && tabProjectil.length < invaders.length ){
             let random = Math.random() * 100
