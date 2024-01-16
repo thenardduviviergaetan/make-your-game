@@ -114,7 +114,7 @@ export class Wave {
                     over.style.transform = 'scale(1)'
                     over.style.backgroundColor = 'red'
                     over.style.transitionProperty ='transform,background-color'
-                    over.style.transitionDuration = '500ms,'
+                    over.style.transitionDuration = '500ms'
                 },250)
                 setTimeout(()=> {
                     over.style.transform = 'scale(0.8)'
