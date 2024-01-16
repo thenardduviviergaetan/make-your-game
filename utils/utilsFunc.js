@@ -68,4 +68,12 @@ const menuInit = ()=> {
     document.body.appendChild(menu)
     }
 
-export {getScreenRefreshRate,menuInit}
+
+const randomize = () => {
+    let tab = ["./assets/sprite/saucer1b.ico","./assets/sprite/saucer2b.ico","./assets/sprite/saucer3b.ico"]
+    let indexRandom = Math.floor(Math.random()*3)
+    return tab[indexRandom]
+}
+
+
+export {getScreenRefreshRate,menuInit,randomize}

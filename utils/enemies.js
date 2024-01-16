@@ -1,4 +1,5 @@
 // import { movements } from "../main.js";
+import { randomize } from "./utilsFunc.js";
 const size = 32;
 let nbLine 
 let tabProjectil = new Array()
@@ -17,7 +18,8 @@ class Ennemy {
         });
         this.HTML.style.position = "absolute";
         this.texture = document.createElement("img");
-        this.texture.src = "./assets/alien.png";
+        this.texture.src = randomize();
+    
         this.texture.width = size*levelsize;
         this.texture.height = size*levelsize;
         this.HTML.appendChild(this.texture);

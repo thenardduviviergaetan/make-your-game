@@ -1,6 +1,6 @@
 import {Ship,Projectile,score} from "./utils/ship.js";
 import { Wave } from "./utils/enemies.js";
-import { getScreenRefreshRate,menuInit } from "./utils/utilsFunc.js";
+import { getScreenRefreshRate,menuInit, randomize } from "./utils/utilsFunc.js";
 //TODO: FAIRE DES BONUS DE RAPID FIRE (on rajoute des shoot()) et rapid movement on rajoute des moveship() ET UN KONAMI CODE
 //TODO: mettre 3 vies
 //** Initialization of all the global variables */

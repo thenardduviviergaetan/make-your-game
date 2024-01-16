@@ -1,6 +1,8 @@
 import { wave,Port } from "../main.js"
+import { randomize } from "./utilsFunc.js"
 let border
 let score = 0
+let tab = [`http://127.0.0.1:5500/assets/sprite/saucer1b.ico`,`http://127.0.0.1:5500/assets/sprite/saucer2b.ico`,`http://127.0.0.1:5500/assets/sprite/saucer3b.ico`]
 let explodeSound = new Audio('./assets/explosion.mp3')
 explodeSound.volume = 0.2
 /**
@@ -63,7 +65,7 @@ class Projectile {
                 //if the bullet reaches one of the invaders, it removes the bullet and the invader
                 if (window.innerHeight-border.bottom-15 <= this.posy && border.right >= this.posx && border.left <= this.posx && window.innerHeight-border.top>=this.posy && elem != null){
                     if (elem.classList.contains('boss')){
-                        if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
+                        if (tab.includes(elem.querySelector('img').src)){
                             score+=5 
                             explodeSound.load()
                             explodeSound.play()
@@ -73,7 +75,7 @@ class Projectile {
                             elem.remove()
                         }, 250);
                     }else {
-                        if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
+                        if (tab.includes(elem.querySelector('img').src)){
                             score++ 
                              explodeSound.load()
                              explodeSound.play()
