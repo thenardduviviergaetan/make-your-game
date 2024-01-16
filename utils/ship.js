@@ -83,7 +83,7 @@ class Projectile {
                             elem.remove()
                         }, 250);
                     } 
-                    this.posx=this.x
+                    this.posx=this.x+21
                     this.posy = this.y
                 }
                 this.HTML.style.transform = `translate(${this.posx}px,-${this.posy}px)`
@@ -92,7 +92,7 @@ class Projectile {
             this.posy+=2.5
             //if the bullet misses and reach the top of the screen 
             }else {
-            this.posx=this.x
+            this.posx=this.x+21
             this.posy =this.y
         }
         this.HTML.style.transform = `translate(${this.posx}px,-${this.posy}px)`
