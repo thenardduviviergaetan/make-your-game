@@ -125,13 +125,22 @@ export class Wave {
             }, 500);
             return true
         }
-        if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size || this.posx < document.getElementById('score').getBoundingClientRect().right){
+        // if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size || this.posx < document.getElementById('score').getBoundingClientRect().right){
+        let right = -1000
+        let left = 999999
+        let invaders = document.querySelectorAll('.invader')
+        invaders.forEach((invader) => {
+            let border = invader.getBoundingClientRect()
+            if (border.right > right) right = border.right
+            if (border.left < left) left = border.left
+        })
+        // if (this.HTML.getBoundingClientRect().right >= window.innerWidth-(this.nbinvader-2)*size || this.HTML.getBoundingClientRect().left < document.getElementById('score').getBoundingClientRect().right){
+        if (right >= window.innerWidth || left < document.getElementById('score').getBoundingClientRect().right){
             this.right = !this.right
             this.posy += 10
         }
         this.posx += this.right ? movements[1] : -movements[1]
         this.HTML.style.transform = `translate(${this.posx}px,${this.posy}px)`
-        let invaders = document.querySelectorAll('.invader')
         if (tabProjectil.length < 5 && tabProjectil.length < invaders.length ){
             let random = Math.random() * 100
             while (random > invaders.length){
@@ -153,6 +162,9 @@ export class Wave {
 
     }
     reset(){
+        if (hp < 3) {
+            hp++
+        }
         this.posx =  document.getElementById('score').getBoundingClientRect().right;
         this.posy = 0
         let index = -1
