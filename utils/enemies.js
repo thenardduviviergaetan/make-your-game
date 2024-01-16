@@ -1,4 +1,4 @@
-// import { movements } from "../main.js";
+import { movements } from "../main.js";
 import { randomize } from "./utilsFunc.js";
 const size = 32;
 let nbLine 
@@ -122,7 +122,7 @@ export class Wave {
             this.right = !this.right
             this.posy += 10
         }
-        this.posx += this.right ? 0.5 : -0.5 
+        this.posx += this.right ? movements[1] : -movements[1]
         this.HTML.style.transform = `translate(${this.posx}px,${this.posy}px)`
         let invaders = document.querySelectorAll('.invader')
         if (tabProjectil.length < 5 && tabProjectil.length < invaders.length ){
@@ -166,7 +166,7 @@ class InvaderProjectile {
     }
 
     tick() {
-        this.y += 1.5
+        this.y += movements[2]
         this.HTML.style.transform = `translate(${this.x}px,${this.y}px)`
         if (this.y >= window.innerHeight){
             this.HTML.remove()

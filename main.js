@@ -1,59 +1,54 @@
 import {Ship,Projectile,score} from "./utils/ship.js";
 import { Wave } from "./utils/enemies.js";
-import { getScreenRefreshRate,menuInit, randomize } from "./utils/utilsFunc.js";
+import { menuInit} from "./utils/utilsFunc.js";
+import { loadScreen,bool} from "./utils/loadScreen.js";
+import { getScreenRefreshRate } from "./utils/requestHz.js";
 //TODO: FAIRE DES BONUS DE RAPID FIRE (on rajoute des shoot()) et rapid movement on rajoute des moveship() ET UN KONAMI CODE
 //TODO: mettre 3 vies
 //** Initialization of all the global variables */
 let Pause = false
+let fps = false
 let rightPressed,leftPressed
-// let movements = []
+let movements = []
 let waveNb = 1
 let ship = new Ship
 let wave = new Wave(5,14,true)
 const Port = "5500"
 let audio = new Audio('./assets/music.mp3')
 audio.volume =0.5
-audio.play()
+let shotSound = new Audio('./assets/shoot.wav')
+shotSound.volume = 0.5
 
-// const hertzChecker =  ()=> {
-//     let movementShip,movementWave
-//     getScreenRefreshRate(function(Hz){
-//         if (Hz >= 50 && Hz <= 60) {
-//             setTimeout(() => {
-//                 movementShip = 10
-//                 movementWave = 2
-//             }, 250);
-//         }
-//         if (Hz >= 110 && Hz <= 165) {
-//             setTimeout(() => {
-//                 movementShip = 7
-//                 movementWave = 1
-//             }, 250);
-//         }
-//         if (Hz >= 230 && Hz <= 240) {
-//             setTimeout(() => {
-//                 movementShip = 2.5
-//                 movementWave = 0.5
-//             }, 250);
-//         }
-//     },false)
-//     let int = setInterval(() => {
-//         if (movementShip !== undefined && movementWave !== undefined) {
-//             movements.push(movementShip)
-//             movements.push(movementWave)
-//             audio.loop = true
-//         audio.volume =0.5
-//         audio.play()
-    
-//         Pause = !Pause
-//         if (document.getElementById('load') != null) document.getElementById('load').remove()
-//             Game()
-//             clearInterval(int)
-//         }
-//     }, 1);
-// }
-
-// Pause = loadScreen(Pause)
+const hertzChecker =  ()=> {
+    let movementShip,movementWave,ennemyShot
+    getScreenRefreshRate(function(Hz){
+        if (Hz >= 50 && Hz <= 60) {
+            setTimeout(() => {
+                movementShip = 7
+                movementWave = 2
+                ennemyShot = 3
+            }, 250);
+        }
+        if (Hz >= 110) {
+            setTimeout(() => {
+                movementShip = 1.5
+                movementWave = 0.8
+                ennemyShot = 0.75
+            }, 250);
+        }
+    },false)
+    let int = setInterval(() => {
+        if (movementShip !== undefined && movementWave !== undefined &&movementShip !== '' && movementWave !== '' ) {
+            movements.push(movementShip)
+            movements.push(movementWave)
+            movements.push(ennemyShot)
+            fps = true
+            clearInterval(int)
+        }
+    }, 1);
+}
+hertzChecker()
+Pause = loadScreen(Pause)
 
 /**
  * @returns {Array}
@@ -94,8 +89,8 @@ let bullet = new Projectile(ship.x,ship.y)
 const moveShip =  ()=> {
     if (!wave.move) return
     ship.HTML =  document.getElementById('ship')
-    if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=1.5
-    if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=1.5
+    if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=movements[0]
+    if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=movements[0]
     bullet.x = ship.x
      ship.HTML.style.transform = `translateX(${ship.x}px)`
 }
@@ -207,22 +202,19 @@ function Game(){
     for (let rep = 0; rep < 1; rep++) moveShip()
     requestAnimationFrame(Game)
 }
-Game()
-// let loaded = setInterval(() => {
-//     if (bool){
-//         // hertzChecker()
-//         audio.loop = true
-//                 audio.volume =0.5
-//                 audio.play()
-//                 Pause = !Pause
-//                 if (document.getElementById('load') != null) document.getElementById('load').remove()
-//                 Game()
-//         clearInterval(loaded)}
-// }, 100);
 
-// setInterval(() => {
-//     console.log(ship.x)
-// },500);
 
-// export {movements}
-export {wave,Port}
+let loaded = setInterval(() => {
+    if (bool){
+        if (fps){
+            audio.loop = true
+                    audio.volume =0.5
+                    audio.play()
+                    Pause = !Pause
+                    if (document.getElementById('load') != null) document.getElementById('load').remove()
+                    Game()
+            clearInterval(loaded)}
+        }
+}, 100);
+
+export {wave,Port,movements}

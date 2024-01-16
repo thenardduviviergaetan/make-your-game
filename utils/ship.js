@@ -1,5 +1,4 @@
-import { wave,Port } from "../main.js"
-import { randomize } from "./utilsFunc.js"
+import { wave,Port,movements } from "../main.js"
 let border
 let score = 0
 let tab = [`http://127.0.0.1:5500/assets/sprite/saucer1b.ico`,`http://127.0.0.1:5500/assets/sprite/saucer2b.ico`,`http://127.0.0.1:5500/assets/sprite/saucer3b.ico`]
@@ -25,7 +24,6 @@ class Ship {
         }
     
     initShip = async ()=> {
-        shotSound.play()
         document.body.appendChild(this.HTML)
     }
 }
@@ -95,7 +93,7 @@ class Projectile {
                 this.HTML.style.transform = `translate(${this.posx}px,-${this.posy}px)`
             })
             if (this.posy <= window.innerHeight){
-            this.posy+=2.5
+            this.posy+=movements[0]
             //if the bullet misses and reach the top of the screen 
             }else {
             this.posx=this.x+21
