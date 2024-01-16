@@ -105,7 +105,7 @@ export class Wave {
             return
         }
         document.getElementById('hp').textContent = `Hp : ${hp}`
-        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500 || hp == 0){
+        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500|| hp == 0 ){
             document.getElementById('over')
             setInterval(() => {
                 over.style.transform = 'scale(0.8)'
@@ -151,6 +151,29 @@ export class Wave {
             }
         });
 
+    }
+    reset(){
+        this.posx =  document.getElementById('score').getBoundingClientRect().right;
+        this.posy = 0
+        let index = -1
+        while (this.HTML.firstChild){
+            this.HTML.firstChild.remove()
+        }
+        this.legion.forEach( element => {
+            index++
+            if (Array.isArray(element)){
+                let htmlline = document.createElement("div");
+                htmlline.classList.add("line");
+                element.forEach(invader => {
+                    invader.texture.src = randomize();
+                    htmlline.appendChild(invader.HTML);
+                })
+                this.HTML.appendChild(htmlline)
+            }else{
+                element.texture.src = randomize();
+                this.HTML.appendChild(element.HTML)
+            }
+        })
     }
 }
 

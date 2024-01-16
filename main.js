@@ -33,7 +33,7 @@ const hertzChecker =  ()=> {
         }
         if (Hz >= 110) {
             setTimeout(() => {
-                movementShip = 1.2
+                movementShip = 1.5
                 movementWave = 0.8
                 ennemyShot = 0.75
             }, 250);
@@ -188,16 +188,17 @@ function Game(){
     let invaders = document.querySelectorAll('.invader')
     if (invaders.length == 0){
         waveNb++
-        wave = new Wave(5,14,true)
-        game.removeChild(game.firstChild)
-        game.appendChild(wave.HTML)
+        wave.reset()
+        // wave = new Wave(5,14,true)
+        // game.removeChild(game.firstChild)
+        // game.appendChild(wave.HTML)
     }
     //for testing only
     for (let rep = 0; rep < 1; rep++) bullet.shoot();
     for (let rep = 0; rep < 1; rep++) moveShip()
     requestAnimationFrame(Game)
 }
-
+//TODO: remet moveship, hp counter over
 
 let loaded = setInterval(() => {
     if (bool){
