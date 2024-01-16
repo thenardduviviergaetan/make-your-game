@@ -1,24 +1,21 @@
-import {Ship,Projectile} from "./utils/ship.js";
+import {Ship,Projectile,score} from "./utils/ship.js";
 import { Wave } from "./utils/enemies.js";
-import {loadScreen,bool} from "./utils/loadingScreen.js";
-import { getScreenRefreshRate } from "./utils/requestHz.js";
+import { getScreenRefreshRate,menuInit } from "./utils/utilsFunc.js";
 //TODO: FAIRE DES BONUS DE RAPID FIRE (on rajoute des shoot()) et rapid movement on rajoute des moveship() ET UN KONAMI CODE
 //TODO: mettre 3 vies
 //** Initialization of all the global variables */
 let Pause = false
-let rightPressed,leftPressed,bulletShot,border
-let movements = []
-let score = 0
+let rightPressed,leftPressed
+// let movements = []
 let waveNb = 1
 let ship = new Ship
+let bullet = new Projectile(ship)
 let wave = new Wave(5,14,true)
 const Port = "5500"
 let audio = new Audio('./assets/music.mp3')
 audio.volume =0.5
         audio.play()
-let explodeSound = new Audio('./assets/explosion.mp3')
 let shotSound = new Audio('./assets/shot.mp3')
-explodeSound.volume = 0.2
 
 // const hertzChecker =  ()=> {
 //     let movementShip,movementWave
@@ -102,65 +99,15 @@ const moveShip =  ()=> {
      ship.HTML.style.transform = `translateX(${ship.x}px)`
 }
 
-/** Initialization of the bullet shot by the ship */
-let bullet = new Projectile(ship)
-let projo = await bullet.projectileInit()
-// await bullet.projectileInit()
-/**
- * Handling of the shooting functionnality and of the bullet reaching the target and 'exploding' (removing) it 
- */
+/** 
+ * Initialization of the bullet shot by the ship 
+*/
+
+
 // let sound = new Audio('./assets/shot.mp3')
 // explodeSound.load()
 // explodeSound.play()
-const shoot =  ()=> {
-    //TODO: mettre des sons à boss qui meurt,tir et game over
-    document.body.appendChild(projo)
-    let invaders = document.querySelectorAll('.invader')
-    bulletShot = document.getElementById('projectile')
-    if (wave.move) {
-        invaders.forEach(elem=> {
-            if (elem != null){
-                border = elem.getBoundingClientRect()
-            }
-            //if the bullet reaches one of the invaders, it removes the bullet and the invader
-            if (window.innerHeight-border.bottom <= bullet.y && border.right >= bullet.x && border.left <= bullet.x && window.innerHeight-border.top>=bullet.y && elem != null){
-                if (elem.classList.contains('boss')){
-                    if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
-                        score+=5 
-                        explodeSound.load()
-                        explodeSound.play()
-                        }
-                    elem.querySelector('img').src = './assets/Explosion.png'
-                    setTimeout(() => {
-                        elem.remove()
-                    }, 250);
-                }else {
-                    if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
-                        score++ 
-                         explodeSound.load()
-                         explodeSound.play()
-                       }
-                    elem.querySelector('img').src = './assets/Explosion.png'
-                    setTimeout(() => {
-                        elem.remove()
-                    }, 250);
-                } 
-                bullet.x=ship.x+21
-                // bulletShot.style.transform = `translateX(${bullet.x}px)`
-                bullet.y = ship.y+25
-            }
-            bulletShot.style.transform = `translate(${bullet.x}px,-${bullet.y}px)`
-        })
-        if (bullet.y <= window.innerHeight){
-        bullet.y+=2.5
-        //if the bullet misses and reach the top of the screen 
-        }else {
-        bullet.x=ship.x+21
-        bullet.y =ship.y+25
-    }
-    bulletShot.style.transform = `translate(${bullet.x}px,-${bullet.y}px)`
-    }
-}
+
 
 
 
@@ -213,27 +160,8 @@ timer()
 /**
  * Handles the 'Pause' functionnality where there is a 'Resume' and 'Restart' choices
  */
-const menuInit = ()=> {
-let menu = document.createElement('div')
-menu.style.opacity = '0%'
-menu.id = 'menu'
-menu.style.top = `${(window.innerHeight/2)-150}px`
-let title = document.createElement('h1')
-title.id = 'title'
-title.textContent = 'Menu'
-let resume = document.createElement('button')
-resume.id = 'resume'
-resume.textContent = 'Resume'
-let restart = document.createElement('button')
-restart.id = 'restart'
-restart.textContent = 'Restart'
-menu.appendChild(title)
-menu.appendChild(resume)
-menu.appendChild(restart)
-document.body.appendChild(menu)
-}
-menuInit()
 
+menuInit()
 const pauseMenu = ()=> {
     // it "asks" to the listener above if the escape key has been pressed, if it pressed then it enters in this condition block 
     if (Pause) {
@@ -286,7 +214,7 @@ function Game(){
         game.appendChild(wave.HTML)
     }
     //for testing only
-    for (let rep = 0; rep < 1; rep++) shoot();
+    for (let rep = 0; rep < 1; rep++) bullet.shoot();
     for (let rep = 0; rep < 1; rep++) moveShip()
     requestAnimationFrame(Game)
 }
@@ -308,3 +236,4 @@ Game()
 // },500);
 
 // export {movements}
+export {wave,Port}

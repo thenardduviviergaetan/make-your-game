@@ -48,21 +48,24 @@ function getScreenRefreshRate(callback, runIndefinitely){
     }
 }
 
-const menuInit = ()=>{
+const menuInit = ()=> {
     let menu = document.createElement('div')
+    menu.style.opacity = '0%'
     menu.id = 'menu'
     menu.style.top = `${(window.innerHeight/2)-150}px`
     let title = document.createElement('h1')
     title.id = 'title'
     title.textContent = 'Menu'
-
     let resume = document.createElement('button')
     resume.id = 'resume'
     resume.textContent = 'Resume'
     let restart = document.createElement('button')
     restart.id = 'restart'
     restart.textContent = 'Restart'
-    return [menu,restart,resume,title]
-}
+    menu.appendChild(title)
+    menu.appendChild(resume)
+    menu.appendChild(restart)
+    document.body.appendChild(menu)
+    }
 
 export {getScreenRefreshRate,menuInit}

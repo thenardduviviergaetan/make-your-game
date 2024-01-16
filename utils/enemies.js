@@ -2,6 +2,7 @@
 const size = 32;
 let nbLine 
 let tabProjectil = new Array()
+
 /**
  * Class Ennemy is all the infos about each invader and boss
  * @param {number} x - X coordinates of each invader
