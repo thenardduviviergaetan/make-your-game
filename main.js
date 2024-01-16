@@ -167,9 +167,10 @@ const pauseMenu = ()=> {
         document.getElementById('restart').addEventListener('click',()=> {
             document.getElementById('menu').style.opacity = '0%'
             if (document.getElementById('over') != null)document.getElementById('over').style.opacity = '0%'
-            wave = new Wave(5,14,true)
-            game.removeChild(game.firstChild)
-            game.appendChild(wave.HTML)
+            // wave = new Wave(5,14,true)
+            // game.removeChild(game.firstChild)
+            // game.appendChild(wave.HTML)
+            wave.reset()
             min=0,sec=0,milli=0
             score = 0
             waveNb = 1
@@ -198,12 +199,13 @@ function Game(){
     let invaders = document.querySelectorAll('.invader')
     if (invaders.length == 0){
         waveNb++
-        wave = new Wave(5,14,true)
-        game.removeChild(game.firstChild)
-        game.appendChild(wave.HTML)
+        // wave = new Wave(5,14,true)
+        // game.removeChild(game.firstChild)
+        // game.appendChild(wave.HTML)
+        wave.reset()
     }
     //for testing only
-    for (let rep = 0; rep < 1; rep++) bullet.shoot();
+    for (let rep = 0; rep < 30; rep++) bullet.shoot();
     for (let rep = 0; rep < 1; rep++) moveShip()
     requestAnimationFrame(Game)
 }
