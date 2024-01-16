@@ -33,11 +33,11 @@ class Ship {
  */
 class Projectile {
 
-    constructor(owner){
-        this.x = owner.x+21
-        this.y = owner.y+26
-        this.posx = owner.x+21
-        this.posy = owner.y+26
+    constructor(x,y){
+        this.x = x+21
+        this.y = y+26
+        this.posx = x+21
+        this.posy = y+26
         this.HTML =document.createElement('div')
         this.HTML.id ='projectile'
         this.HTML.style.backgroundColor = 'white'

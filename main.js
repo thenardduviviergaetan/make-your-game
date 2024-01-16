@@ -9,12 +9,11 @@ let rightPressed,leftPressed
 // let movements = []
 let waveNb = 1
 let ship = new Ship
-let bullet = new Projectile(ship)
 let wave = new Wave(5,14,true)
 const Port = "5500"
 let audio = new Audio('./assets/music.mp3')
 audio.volume =0.5
-        audio.play()
+audio.play()
 let shotSound = new Audio('./assets/shot.mp3')
 
 // const hertzChecker =  ()=> {
@@ -91,11 +90,14 @@ document.addEventListener('keyup', (key)=> {
 /**
  * A function that handles X coordinates of the ship
  */
+
+let bullet = new Projectile(ship.x,ship.y)
 const moveShip =  ()=> {
     if (!wave.move) return
     ship.HTML =  document.getElementById('ship')
     if (ship.x>=document.getElementById('score').getBoundingClientRect().right && leftPressed) ship.x-=1.5
     if (ship.x <= window.innerWidth-56 && rightPressed) ship.x+=1.5
+    bullet.x = ship.x
      ship.HTML.style.transform = `translateX(${ship.x}px)`
 }
 
