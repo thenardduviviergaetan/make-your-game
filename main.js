@@ -43,8 +43,7 @@ const hertzChecker =  ()=> {
                 ennemyShot = 1.5
             }, 250);
         }
-        console.log(Hz)
-    },true)
+   },true)
     let int = setInterval(() => {
         if (movementShip !== undefined && movementWave !== undefined &&movementShip !== '' && movementWave !== '' ) {
             movements.push(movementShip)
