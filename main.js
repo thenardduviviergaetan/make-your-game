@@ -101,18 +101,6 @@ const moveShip =  ()=> {
      ship.HTML.style.transform = `translateX(${ship.x}px)`
 }
 
-/** 
- * Initialization of the bullet shot by the ship 
-*/
-
-
-// let sound = new Audio('./assets/shot.mp3')
-// explodeSound.load()
-// explodeSound.play()
-
-
-
-
 /** Handles the automatic refresh of the score */
 setInterval(() => {
     let scoreCount = document.getElementById('score')

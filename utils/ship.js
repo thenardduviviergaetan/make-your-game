@@ -61,7 +61,7 @@ class Projectile {
                     border = elem.getBoundingClientRect()
                 }
                 //if the bullet reaches one of the invaders, it removes the bullet and the invader
-                if (window.innerHeight-border.bottom <= this.posy && border.right >= this.posx && border.left <= this.posx && window.innerHeight-border.top>=this.posy && elem != null){
+                if (window.innerHeight-border.bottom-15 <= this.posy && border.right >= this.posx && border.left <= this.posx && window.innerHeight-border.top>=this.posy && elem != null){
                     if (elem.classList.contains('boss')){
                         if (elem.querySelector('img').src == `http://127.0.0.1:${Port}/assets/alien.png`){
                             score+=5 

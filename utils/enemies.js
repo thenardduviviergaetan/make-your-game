@@ -89,7 +89,6 @@ export class Wave {
     */
 
    //TODO: faire un valeur de descente et de déplacement dynamique
-   //TODO: faire une bprder confinée pour laisser une place à notre scoreboard
    tick(){
         if (!this.move) {
             return
