@@ -39,10 +39,11 @@ const hertzChecker =  ()=> {
         } else if (Hz >= 118 && Hz <= 145){
             setTimeout(() => {
                 movementShip = 3
-                movementWave = 1.6
+                movementWave = 1.2
                 ennemyShot = 1.5
             }, 250);
         }
+        console.log(Hz)
     },true)
     let int = setInterval(() => {
         if (movementShip !== undefined && movementWave !== undefined &&movementShip !== '' && movementWave !== '' ) {
