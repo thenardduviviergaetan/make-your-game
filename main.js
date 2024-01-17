@@ -159,13 +159,13 @@ const pauseMenu = ()=> {
         document.getElementById('menu').style.opacity = '100%'
         audio.pause()
         // listener for the clickable button Resume, it inverts the value of Pause boolean, works like a 'toggle' for the pause menu to showup
-        if (!wave.tick) {
+        
             document.getElementById('resume').addEventListener('click', ()=> {
                 document.getElementById('menu').style.opacity = '0%'
                 Pause = false
                 audio.play()
             })
-        }
+        
 
         // listener for the clickable button Restart, it refresh the wave to a freshly new, and reset all timers and score
         document.getElementById('restart').addEventListener('click',()=> {
