@@ -219,10 +219,22 @@ class InvaderProjectile {
                         ship.style.opacity = '0%'
                             setTimeout(() => {
                             ship.style.opacity = '100%'
-                            ship.classList.toggle('god')
+                            setTimeout(() => {
+                                ship.style.opacity = '0%'
+                                setTimeout(() => {
+                                    ship.style.opacity = '100%'
+                                    setTimeout(() => {
+                                        ship.style.opacity = '0%'
+                                        setTimeout(() => {
+                                            ship.style.opacity = '100%'
+                                                ship.classList.toggle('god')
+                                        }, 250);
+                                    }, 250);
+                                }, 250);
+                            }, 250);
                         }, 250);
                     }, 250);
-            }, 200);
+            }, 250);
             return true
         }
     }
