@@ -104,8 +104,20 @@ export class Wave {
         if (!this.move) {
             return
         }
+        let right = -1000
+        let left = 999999
+        let bottom = 0
+        let invaders = document.querySelectorAll('.invader')
+        invaders.forEach((invader) => {
+            let border = invader.getBoundingClientRect()
+            if (border.right > right) right = border.right
+            if (border.left < left) left = border.left
+            if (border.bottom > bottom) bottom = border.bottom
+        })
         document.getElementById('hp').textContent = `Hp : ${hp}`
-        if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500|| hp == 0 ){
+        let shipborder = document.getElementById('ship').getBoundingClientRect()
+        // if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500|| hp == 0 ){
+        if (bottom >= shipborder.top || hp == 0 ){
             document.getElementById('over')
             setInterval(() => {
                 over.style.transform = 'scale(0.8)'
@@ -126,14 +138,6 @@ export class Wave {
             return true
         }
         // if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size || this.posx < document.getElementById('score').getBoundingClientRect().right){
-        let right = -1000
-        let left = 999999
-        let invaders = document.querySelectorAll('.invader')
-        invaders.forEach((invader) => {
-            let border = invader.getBoundingClientRect()
-            if (border.right > right) right = border.right
-            if (border.left < left) left = border.left
-        })
         // if (this.HTML.getBoundingClientRect().right >= window.innerWidth-(this.nbinvader-2)*size || this.HTML.getBoundingClientRect().left < document.getElementById('score').getBoundingClientRect().right){
         if (right >= window.innerWidth || left < document.getElementById('score').getBoundingClientRect().right){
             this.right = !this.right
@@ -213,10 +217,13 @@ class InvaderProjectile {
         this.HTML.style.transform = `translate(${this.x}px,${this.y}px)`
         let ship = document.getElementById('ship')
         let border = ship.getBoundingClientRect()
+        let ify = border.top <= this.HTML.getBoundingClientRect().bottom && border.bottom >= this.HTML.getBoundingClientRect().top
+        let ifx = border.left <= this.HTML.getBoundingClientRect().right && border.right >= this.HTML.getBoundingClientRect().left
         if (this.y >= window.innerHeight){
             this.HTML.remove()
             return true
-        } else if (border.y +10 >= this.y && border.y-110<= this.y && border.x+50 >= this.x && this.x >= border.x -5 && !ship.classList.contains('god') ) {
+        // } else if (border.y +10 >= this.y && border.y-110<= this.y && border.x+50 >= this.x && this.x >= border.x -5 && !ship.classList.contains('god') ) {
+        } else if (ify && ifx && !ship.classList.contains('god')) {
             ship.classList.toggle('god')
             hp--
             this.HTML.remove()
