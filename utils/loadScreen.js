@@ -21,10 +21,9 @@ const loadScreen = (Pause)=> {
     play.textContent = 'Play !'
     play.style.display = 'none'
     let check = setInterval(() => {
-        loading.style.width = `${w}px`
-        loading.style.transition = '2500ms'
-        w+=100
-        if (loading.style.width == '800px') {
+        w+=200
+        if (w == 800) {
+            loading.style.width = `${w}px`
             play.style.display = ''
             bool1 = true
             clearInterval(check)

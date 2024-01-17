@@ -87,7 +87,7 @@ body{
     z-index: 100;
     border-radius: 20px;
     width: 30%;
-    animation: 1s ease-in-out infinite alternate over;
+    animation: 1s ease-in-out infinite over;
 }
 
 @keyframes over {
@@ -134,7 +134,28 @@ body{
     background-color: rgb(9, 186, 9);
     height:20px;
     position: inherit;
+    animation: 2.4s ease-in lo;
 }
+
+@keyframes lo {
+    from{
+        width: 0px;
+    }
+    25%{
+        width: 200px;
+    }
+    50% {
+        width: 400px;
+    }
+    75% {
+        width: 600px;
+
+    }
+    to {
+        width: 800px;
+    }
+}
+
 #play{
     margin-top: 10%;
     width: 12%;
