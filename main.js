@@ -184,10 +184,9 @@ wave.overinit()
 function Game(){
     // if this is a game over
     if (wave.tick()){
-        Pause = !Pause
-        document.getElementById('over').style.opacity = '100%'
+        Pause = true
         pauseMenu()
-        document.getElementById('resume').style.opacity = '0%'
+        document.getElementById('menu').removeChild(document.getElementById('resume'))
     }
     
     let invaders = document.querySelectorAll('.invader')

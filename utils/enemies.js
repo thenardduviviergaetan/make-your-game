@@ -118,23 +118,8 @@ export class Wave {
         let shipborder = document.getElementById('ship').getBoundingClientRect()
         // if (this.posy + size >= 500 || this.boss && this.posy + size*4 >= 500|| hp == 0 ){
         if (bottom >= shipborder.top || hp == 0 ){
-            document.getElementById('over')
-            setInterval(() => {
-                over.style.transform = 'scale(0.8)'
-                over.style.transition = '500ms'
-                setTimeout(()=> {
-                    over.style.transform = 'scale(1)'
-                    over.style.backgroundColor = 'red'
-                    over.style.transitionProperty ='transform,background-color'
-                    over.style.transitionDuration = '500ms'
-                },250)
-                setTimeout(()=> {
-                    over.style.transform = 'scale(0.8)'
-                    over.style.backgroundColor = ''
-                    over.style.transitionProperty ='transform,background-color'
-                    over.style.transitionDuration = '500ms,200ms'
-                },500)
-            }, 500);
+            let over = document.getElementById('over')
+            over.style.opacity = '100%'
             return true
         }
         // if (this.posx+2*size >= window.innerWidth-(this.nbinvader-2)*size || this.posx < document.getElementById('score').getBoundingClientRect().right){

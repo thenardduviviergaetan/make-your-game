@@ -17,6 +17,7 @@ const menuInit = ()=> {
     menu.appendChild(resume)
     menu.appendChild(restart)
     document.body.appendChild(menu)
+    return menu
     }
 
 
